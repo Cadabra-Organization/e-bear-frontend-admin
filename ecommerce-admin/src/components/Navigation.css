@@ -1,0 +1,23 @@
+.side-menu {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 15px;
+  }
+  
+  .home-icon {
+    width: 1.5vw;
+  }
+  
+  .chevron-down-icon {
+    width: 1.5vw;
+  }
+  
+  .side-menu-subject-section {
+    display: flex;
+    align-items: center;
+  }
+  
+  .side-menu-subject {
+    padding-left: 1vw;
+  }

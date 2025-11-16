@@ -1,0 +1,20 @@
+.top-info-container {
+    height: 5.44vh;
+    width: 84vw;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  
+  .notice-info-container {
+    height: 6.52vh;
+    width: 84vw;
+    background-color: #D3D3D3;
+    display: flex;
+    align-items: center;
+  }
+  
+  .notice-data {
+    padding-left: 2.34vw;
+    font-weight: 600;
+  }

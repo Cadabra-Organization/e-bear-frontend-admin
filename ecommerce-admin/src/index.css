@@ -62,7 +62,6 @@ button:focus-visible {
 body {
   margin: 0;
   display: flex;
-  place-items: center;
   min-width: 80vw;
   min-height: 100vh;
 }

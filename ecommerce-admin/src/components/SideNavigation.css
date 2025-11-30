@@ -1,12 +1,12 @@
 .side-menu-container {
-    height: 100vh;
+    min-height: 100vh;
     width: 16vw;
     background-color: #1F1F1F;
     color: white;
   }
 
   .side-menu-top {
-    height: 26vh;
+    /* height: 26vh; */
   }
   
   .seller-avatar {

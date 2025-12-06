@@ -1,9 +1,8 @@
-import PropTypes from 'prop-types';
 import "./SideNavigation.css";
-import { Avatar, AvatarFallback, UserIcon } from './CustomTag';
+import { Avatar, AvatarFallback, UserIcon } from './CustomTag'
 import Navigation from "./Navigation";
 
-const SideNavigation = ({ userInfo, navigation, onNavigationClick, currentPage }) => {
+const SideNavigation = ({userInfo, navigation}) => {
     return (
         <div className='side-menu-container'>
             <div className='side-menu-top'>
@@ -24,28 +23,9 @@ const SideNavigation = ({ userInfo, navigation, onNavigationClick, currentPage }
                 </div>
             </div>
             <hr/>
-            <Navigation 
-                navigation={navigation} 
-                onNavigationClick={onNavigationClick}
-                currentPage={currentPage}
-            />
+            <Navigation navigation={navigation} />
         </div>
     );
-};
-
-SideNavigation.propTypes = {
-    userInfo: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        email: PropTypes.string.isRequired,
-    }).isRequired,
-    navigation: PropTypes.arrayOf(
-        PropTypes.shape({
-            subject: PropTypes.string.isRequired,
-            url: PropTypes.string,
-        })
-    ).isRequired,
-    onNavigationClick: PropTypes.func.isRequired,
-    currentPage: PropTypes.string.isRequired,
-};
+}
 
 export default SideNavigation;

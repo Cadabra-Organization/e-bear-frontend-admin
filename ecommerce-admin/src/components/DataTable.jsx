@@ -7,7 +7,6 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Toolbar from '@mui/material/Toolbar';
@@ -30,31 +29,6 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Button from '@mui/material/Button';
 
-function createData(num, subject, writer, regDt, viewCnt) {
-  return {
-    num,
-    subject,
-    writer,
-    regDt,
-    viewCnt,
-  };
-}
-
-const rows = [
-  createData(1, 'Cupcake', '작성자1', '2024-01-01', 67),
-  createData(2, 'Donut', '작성자2', '2024-01-02', 51),
-  createData(3, 'Eclair', '작성자3', '2024-01-03', 24),
-  createData(4, 'Frozen yoghurt', '작성자4', '2024-01-04', 24),
-  createData(5, 'Gingerbread', '작성자5', '2024-01-05', 49),
-  createData(6, 'Honeycomb', '작성자6', '2024-01-06', 87),
-  createData(7, 'Ice cream sandwich', '작성자7', '2024-01-07', 37),
-  createData(8, 'Jelly Bean', '작성자8', '2024-01-08', 94),
-  createData(9, 'KitKat', '작성자9', '2024-01-09', 65),
-  createData(10, 'Lollipop', '작성자10', '2024-01-10', 98),
-  createData(11, 'Marshmallow', '작성자12', '2024-01-11', 81),
-  createData(12, 'Nougat', '작성자13', '2024-01-12', 9),
-  createData(13, 'Oreo', '작성자14', '2024-01-13', 63),
-];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -72,50 +46,8 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-const headCells = [
-  {
-    id: 'num',
-    numeric: false,
-    disablePadding: true,
-    label: '번호',
-    width: 50,
-    align: 'center',
-  },{
-    id: 'subject',
-    numeric: false,
-    disablePadding: false,
-    label: '제목',
-    width: 400,
-    align: 'left',
-  },
-  {
-    id: 'writer',
-    numeric: true,
-    disablePadding: false,
-    label: '작성자',
-    width: 100,
-    align: 'center',
-  },
-  {
-    id: 'regDt',
-    numeric: true,
-    disablePadding: false,
-    label: '등록일자',
-    width: 150,
-    align: 'center',
-  },
-  {
-    id: 'viewCnt',
-    numeric: true,
-    disablePadding: false,
-    label: '조회수',
-    width: 80,
-    align: 'center',
-  },
-];
-
 function EnhancedTableHead(props) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
+  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, headCells } =
     props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
@@ -124,7 +56,7 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
+        <TableCell padding="checkbox" sx={{ width: 30, minWidth: 30 }}>
           <Checkbox
             color="primary"
             indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -138,7 +70,6 @@ function EnhancedTableHead(props) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            // align={headCell.align || (headCell.numeric ? 'right' : 'left')}
             align='center'
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
@@ -168,6 +99,7 @@ function EnhancedTableHead(props) {
 }
 
 EnhancedTableHead.propTypes = {
+  headCells: PropTypes.array.isRequired,
   numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
   onSelectAllClick: PropTypes.func.isRequired,
@@ -221,24 +153,21 @@ function EnhancedTableToolbar(props) {
   );
 }
 
-EnhancedTableToolbar.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-  pageInfo: PropTypes.shape({
-    pageType: PropTypes.string,
-  }),
-};
 
-export default function EnhancedTable ({ pageInfo }) {
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('num');
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
+export default function EnhancedTable ({ pageInfo, headCells, rows }) {
+  const [order, setOrder] = React.useState('asc'); //정렬방향
+  const [orderBy, setOrderBy] = React.useState('num'); //정렬기준
+  const [selected, setSelected] = React.useState([]); //체크박스 선택값
+  const [page, setPage] = React.useState(0); //현재 페이지 번호
   const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10); //페이지당 표시 갯수
   const [startDate, setStartDate] = React.useState(null);
   const [endDate, setEndDate] = React.useState(null);
-  const [searchCondition, setSearchCondition] = React.useState('');
+  const [searchCondition, setSearchCondition] = React.useState('all');
   const [searchText, setSearchText] = React.useState(''); 
+  const searchOptions = pageInfo?.searchList 
+    ? Object.entries(pageInfo.searchList) 
+    : [];
   
   const handleSearchConditionChange = (event) => {
     setSearchCondition(event.target.value);
@@ -292,16 +221,16 @@ export default function EnhancedTable ({ pageInfo }) {
   };
 
 
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
+  // 데이터 가공 및 렌더링
   const visibleRows = React.useMemo(
     () =>
       [...rows]
         .sort(getComparator(order, orderBy))
-        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [order, orderBy, page, rowsPerPage],
+        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage), //현재페이지에 해당하는 데이터만 잘라냄
+    [order, orderBy, page, rowsPerPage, rows],
   );
   const pageCount = Math.ceil(rows.length / rowsPerPage);
 
@@ -347,10 +276,14 @@ export default function EnhancedTable ({ pageInfo }) {
               label="조건"
               onChange={handleSearchConditionChange}
             >
-              <MenuItem value={'전체'}>전체</MenuItem>
-              <MenuItem value={'제목'}>제목</MenuItem>
-              <MenuItem value={'내용'}>내용</MenuItem>
-              <MenuItem value={'작성자'}>작성자</MenuItem>
+              {searchOptions.map(([valueKey, labelName]) => (
+                <MenuItem 
+                  key={valueKey}
+                  value={valueKey}       
+                >
+                  {labelName}             
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
           <TextField 
@@ -401,6 +334,7 @@ export default function EnhancedTable ({ pageInfo }) {
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
+              headCells={headCells}
             />
             <TableBody>
               {visibleRows.map((row, index) => {
@@ -427,60 +361,24 @@ export default function EnhancedTable ({ pageInfo }) {
                         }}
                       />
                     </TableCell>
-                    <TableCell
-                      component="th"
-                      id={labelId}
-                      scope="row"
-                      padding="normal"
-                      align={headCells[0].align || 'left'}
-                      sx={{
-                        width: headCells[0].width,
-                        minWidth: headCells[0].width,
-                        maxWidth: headCells[0].width,
-                      }}
-                    >
-                      {row.num}
-                    </TableCell>
-                    <TableCell 
-                      align={headCells[1].align || 'left'}
-                      sx={{
-                        width: headCells[1].width,
-                        minWidth: headCells[1].width,
-                        maxWidth: headCells[1].width,
-                      }}
-                    >
-                      {row.subject}
-                    </TableCell>
-                    <TableCell 
-                      align={headCells[2].align || 'right'}
-                      sx={{
-                        width: headCells[2].width,
-                        minWidth: headCells[2].width,
-                        maxWidth: headCells[2].width,
-                      }}
-                    >
-                      {row.writer}
-                    </TableCell>
-                    <TableCell 
-                      align={headCells[3].align || 'right'}
-                      sx={{
-                        width: headCells[3].width,
-                        minWidth: headCells[3].width,
-                        maxWidth: headCells[3].width,
-                      }}
-                    >
-                      {row.regDt}
-                    </TableCell>
-                    <TableCell 
-                      align={headCells[4].align || 'right'}
-                      sx={{
-                        width: headCells[4].width,
-                        minWidth: headCells[4].width,
-                        maxWidth: headCells[4].width,
-                      }}
-                    >
-                      {row.viewCnt}
-                    </TableCell>
+                    {headCells.map((headCell, cellIndex) => (
+                      <TableCell 
+                            key={headCell.id} 
+                            // 첫 번째 셀 (번호)에만 scope="row"와 component="th"를 적용
+                            component={cellIndex === 0 ? "th" : "td"}
+                            scope={cellIndex === 0 ? "row" : undefined}
+                            id={cellIndex === 0 ? labelId : undefined}
+                            padding={headCell.disablePadding ? 'none' : 'normal'}
+                            align={headCell.align || 'left'}
+                            sx={{
+                                width: headCell.width,
+                                minWidth: headCell.width,
+                                maxWidth: headCell.width,
+                            }}
+                        >
+                            {row[headCell.id]} 
+                        </TableCell>
+                    ))}
                   </TableRow>
                 );
               })}
@@ -519,8 +417,10 @@ EnhancedTable.propTypes = {
   pageInfo: PropTypes.shape({
     pageType: PropTypes.string,
   }),
+  rows: PropTypes.array.isRequired,
 };
 
 EnhancedTable.defaultProps = {
   pageInfo: null,
+  rows: [],
 };

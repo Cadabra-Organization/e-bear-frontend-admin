@@ -1,9 +1,9 @@
 import './App.css'
-import MainPage from './pages/MainPage'
+import NoticePage from './pages/NoticePage'
 
 function App() {
   return (
-    <MainPage />
+    <NoticePage />
   )
 }
 

@@ -1,0 +1,11 @@
+.chat-room-container {
+    border-radius: 10px;
+    width: 100%;
+    display: flex;
+    padding: 1vw;
+}
+
+.room-info-title-message {
+    display: flex;
+    flex-direction: column;
+}

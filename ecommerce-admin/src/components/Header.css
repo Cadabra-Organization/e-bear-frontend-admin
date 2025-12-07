@@ -18,3 +18,30 @@
     padding-left: 2.34vw;
     font-weight: 600;
   }
+
+  .title-data {
+    width: 84vw;
+    position: relative;
+    margin: 10px;
+  }
+
+  .title-data .title-text {
+    color: #000000;
+    border-bottom: 5px solid #1976d2;
+    padding-bottom: 0.95vh;
+    margin-bottom: -3px; 
+    display: inline-block;
+    font-weight: 600;
+    font-size: 1.2rem;
+    position: relative;
+    z-index: 2;
+    margin-left: 5px;
+    margin-right: 5px;
+    line-height: 1.5;
+  }
+
+  .title-line {
+    margin-top: 0px;
+    margin-left: 7px;
+    margin-right: 5px;
+  }

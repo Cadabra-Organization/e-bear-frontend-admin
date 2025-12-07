@@ -1,6 +1,5 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
-import { alpha } from '@mui/material/styles';
+// import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -13,9 +12,9 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import DeleteIcon from '@mui/icons-material/Delete';
+// import IconButton from '@mui/material/IconButton';
+// import Tooltip from '@mui/material/Tooltip';
+// import DeleteIcon from '@mui/icons-material/Delete';
 import { visuallyHidden } from '@mui/utils';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
@@ -97,62 +96,6 @@ function EnhancedTableHead(props) {
     </TableHead>
   );
 }
-
-EnhancedTableHead.propTypes = {
-  headCells: PropTypes.array.isRequired,
-  numSelected: PropTypes.number.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
-};
-
-function EnhancedTableToolbar(props) {
-  const { numSelected, pageInfo } = props;
-  return (
-    <Toolbar
-      sx={[
-        {
-          pl: { sm: 2 },
-          pr: { xs: 1, sm: 1 },
-        },
-        numSelected > 0 && {
-          bgcolor: (theme) =>
-            alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
-        },
-      ]}
-    >
-      {numSelected > 0 ? (
-        <Typography
-          sx={{ flex: '1 1 100%' }}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Typography
-          sx={{ flex: '1 1 100%' }}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
-          {pageInfo?.pageType || '목록'}
-        </Typography>
-      )}
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : null}
-    </Toolbar>
-  );
-}
-
 
 export default function EnhancedTable ({ pageInfo, headCells, rows }) {
   const [order, setOrder] = React.useState('asc'); //정렬방향
@@ -237,7 +180,6 @@ export default function EnhancedTable ({ pageInfo, headCells, rows }) {
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} pageInfo={pageInfo} />
         <LocalizationProvider 
           dateAdapter={AdapterDayjs}
           dateFormats={{ keyboardDate: 'YYYY-MM-DD' }}
@@ -305,6 +247,19 @@ export default function EnhancedTable ({ pageInfo, headCells, rows }) {
               },
             }}>
             검색
+          </Button>
+          <Button 
+            variant="contained" 
+            size="medium"
+            sx={{
+              marginLeft: 'auto',
+              backgroundColor: '#000000', 
+              color: '#FFFFFF',         
+              '&:hover': {               
+                backgroundColor: '#959595ff', 
+              },
+            }}>
+            삭제
           </Button>
           <Button 
             variant="contained" 
@@ -413,14 +368,3 @@ export default function EnhancedTable ({ pageInfo, headCells, rows }) {
   );
 }
 
-EnhancedTable.propTypes = {
-  pageInfo: PropTypes.shape({
-    pageType: PropTypes.string,
-  }),
-  rows: PropTypes.array.isRequired,
-};
-
-EnhancedTable.defaultProps = {
-  pageInfo: null,
-  rows: [],
-};

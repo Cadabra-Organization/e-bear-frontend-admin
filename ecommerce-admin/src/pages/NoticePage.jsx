@@ -36,6 +36,15 @@ const NoticePage = () => {
         {subject:'HOME', url:'/admin/home'}
     ];
 
+    // 보여주고 싶은 검색 조건 설정 (SearchHeader를 제어)
+    const searchConfig = {
+        showDate: true,      // 날짜 검색 
+        showCondition: true, // 검색조건 선택 
+        showText: true,      // 검색어 입력 
+        showDelete: true,    // 삭제 버튼 
+        showWrite: true,      // 글쓰기 버튼 
+    };
+
     let userInfo = {
         name:'이베어',
         email:'ebear@knou.ac.kr'
@@ -58,6 +67,7 @@ const NoticePage = () => {
         }
     }
 
+    // 테이블 헤더 정의
     let headCells = [
         {
             id: 'num',
@@ -106,8 +116,8 @@ const NoticePage = () => {
             <div className='main-container'>
                 <Header notice={notice} titleInfo={titleInfo}/>
                 <div className='main-section'>
-                    {/* 순서대로 게시판 데이터, 표 헤더 데이터, 출력 데이터 */}
-                    <DataTable pageInfo={pageInfo} headCells={headCells} rows={rows} />
+                    {/* 순서대로 게시판 데이터, 표 헤더 데이터, 출력 데이터, 검색조건 */}
+                    <DataTable pageInfo={pageInfo} headCells={headCells} rows={rows} searchConfig={searchConfig}/>
                 </div>
             </div>
         </div>

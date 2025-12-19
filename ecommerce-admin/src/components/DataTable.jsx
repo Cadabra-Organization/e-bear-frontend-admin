@@ -1,32 +1,14 @@
 import * as React from 'react';
-// import { alpha } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
+import SearchHeader from "./SearchHeader";
+import { Box, Table, TableBody, TableCell, TableContainer, TableRow, Paper, Checkbox, Pagination, Stack } from '@mui/material';
 import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import Checkbox from '@mui/material/Checkbox';
-// import IconButton from '@mui/material/IconButton';
-// import Tooltip from '@mui/material/Tooltip';
-// import DeleteIcon from '@mui/icons-material/Delete';
 import { visuallyHidden } from '@mui/utils';
-import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import TextField from '@mui/material/TextField';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import Button from '@mui/material/Button';
+
+
 
 
 function descendingComparator(a, b, orderBy) {
@@ -45,7 +27,7 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-function EnhancedTableHead(props) {
+function DataTableHead(props) {
   const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, headCells } =
     props;
   const createSortHandler = (property) => (event) => {
@@ -97,17 +79,23 @@ function EnhancedTableHead(props) {
   );
 }
 
-export default function EnhancedTable ({ pageInfo, headCells, rows }) {
+export default function DataTableTable ({ pageInfo, headCells, rows, searchConfig }) {
   const [order, setOrder] = React.useState('asc'); //정렬방향
   const [orderBy, setOrderBy] = React.useState('num'); //정렬기준
   const [selected, setSelected] = React.useState([]); //체크박스 선택값
   const [page, setPage] = React.useState(0); //현재 페이지 번호
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(10); //페이지당 표시 갯수
+
+  //검색 상태 정의
   const [startDate, setStartDate] = React.useState(null);
   const [endDate, setEndDate] = React.useState(null);
   const [searchCondition, setSearchCondition] = React.useState('all');
-  const [searchText, setSearchText] = React.useState(''); 
+  const [searchText, setSearchText] = React.useState('');
+
+  //검색란 버튼 관리
+  const [write, setWrite] = React.useState(false);
+
   const searchOptions = pageInfo?.searchList 
     ? Object.entries(pageInfo.searchList) 
     : [];
@@ -118,6 +106,17 @@ export default function EnhancedTable ({ pageInfo, headCells, rows }) {
   
   const handleSearchTextChange = (event) => {
     setSearchText(event.target.value);
+  };
+
+  const handleSearch = () => {
+      // 실제 검색 로직 (API 호출 등)이 들어갈 위치
+      console.log('검색 실행:', { 
+          startDate, 
+          endDate, 
+          searchCondition, 
+          searchText 
+      });
+      setPage(0); // 검색 시 첫 페이지로 이동
   };
 
   const handleRequestSort = (event, property) => {
@@ -184,97 +183,19 @@ export default function EnhancedTable ({ pageInfo, headCells, rows }) {
           dateAdapter={AdapterDayjs}
           dateFormats={{ keyboardDate: 'YYYY-MM-DD' }}
         >
-          <Box
-            sx={{ 
-              p: 2, 
-              borderBottom: '1px solid #eee', 
-              display: 'flex',
-              gap: 2, 
-              alignItems: 'center', 
-              flexWrap: 'wrap'
-            }}
-          >
-            <DatePicker 
-              label="시작일" 
-              value={startDate} 
-              onChange={(newValue) => setStartDate(newValue)} 
-              slotProps={{ textField: { size: 'small', sx: { width: 180 } } }}
-            />
-            <Typography variant="subtitle1" sx={{ color: 'text.secondary' }}>
-              ~
-            </Typography>
-            <DatePicker 
-              label="종료일" 
-              value={endDate} 
-              onChange={(newValue) => setEndDate(newValue)} 
-              slotProps={{ textField: { size: 'small', sx: { width: 180 } } }}
-            />
-          <FormControl sx={{ m: 1, minWidth: 90 }} size="small">
-            <InputLabel id="demo-select-small-label">조건</InputLabel>
-            <Select
-              labelId="demo-select-small-label"
-              id="demo-select-small"
-              value={searchCondition}
-              label="조건"
-              onChange={handleSearchConditionChange}
-            >
-              {searchOptions.map(([valueKey, labelName]) => (
-                <MenuItem 
-                  key={valueKey}
-                  value={valueKey}       
-                >
-                  {labelName}             
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <TextField 
-            size="small" 
-            id="outlined-basic" 
-            label="내용" 
-            placeholder='내용을 입력하세요.' 
-            value={searchText} 
-            onChange={handleSearchTextChange} 
+          <SearchHeader 
+            searchConfig={searchConfig} // 설정값 전달
+            startDate={startDate} setStartDate={setStartDate}
+            endDate={endDate} setEndDate={setEndDate}
+            searchCondition={searchCondition}
+            // handleSearchConditionChange={handleSearchConditionChange}
+            handleSearchConditionChange={(e) => setSearchCondition(e.target.value)}
+            searchText={searchText}
+            handleSearchTextChange={handleSearchTextChange}
+            searchOptions={searchOptions}
+            handleSearch={handleSearch}
+            onWriteClick={() => setWrite(true)}
           />
-          <Button 
-            variant="contained" 
-            size="medium"
-            sx={{
-              backgroundColor: '#000000', 
-              color: '#FFFFFF',          
-              '&:hover': {               
-                backgroundColor: '#959595ff', 
-              },
-            }}>
-            검색
-          </Button>
-          <Button 
-            variant="contained" 
-            size="medium"
-            sx={{
-              marginLeft: 'auto',
-              backgroundColor: '#000000', 
-              color: '#FFFFFF',         
-              '&:hover': {               
-                backgroundColor: '#959595ff', 
-              },
-            }}>
-            삭제
-          </Button>
-          <Button 
-            variant="contained" 
-            size="medium"
-            sx={{
-              marginLeft: 'auto',
-              backgroundColor: '#000000', 
-              color: '#FFFFFF',         
-              '&:hover': {               
-                backgroundColor: '#959595ff', 
-              },
-            }}>
-            글쓰기
-          </Button>
-          </Box>
         </LocalizationProvider>
         <TableContainer>
           <Table
@@ -282,7 +203,7 @@ export default function EnhancedTable ({ pageInfo, headCells, rows }) {
             aria-labelledby="tableTitle"
             size={dense ? 'small' : 'medium'}
           >
-            <EnhancedTableHead
+            <DataTableHead
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
@@ -343,7 +264,7 @@ export default function EnhancedTable ({ pageInfo, headCells, rows }) {
                     height: (dense ? 33 : 53) * emptyRows,
                   }}
                 >
-                  <TableCell colSpan={6} />
+                  <TableCell colSpan={headCells.length + 1} />
                 </TableRow>
               )}
             </TableBody>
@@ -362,8 +283,7 @@ export default function EnhancedTable ({ pageInfo, headCells, rows }) {
             showLastButton 
           />
         </Stack>
-    </Paper>
-      
+      </Paper>
     </Box>
   );
 }

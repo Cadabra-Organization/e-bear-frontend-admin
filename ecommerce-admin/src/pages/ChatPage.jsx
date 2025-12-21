@@ -29,11 +29,13 @@ const ChatPage = () => {
             <div className='main-container'>
                 <Header notice={notice}/>
                 <div className='main-section'>
-                    <div className="chat-main-section">
-                        <span>1:1 채팅 문의</span>
+                    <div>
+                        <span className="chat-main-section-title">1:1 채팅 문의</span>
                         <hr />
-                        <ChatRoomList />
-                        <Chat />
+                        <div className="chat-main-section">
+                            <ChatRoomList />
+                            <Chat />
+                        </div>
                     </div>
                 </div>
             </div>

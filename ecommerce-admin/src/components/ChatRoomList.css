@@ -1,6 +1,18 @@
 .chat-room-list-container {
     border: 2px solid #B5B5B5;
     border-radius: 10px;
-    width: 50%;
+    width: 45%;
     height: 100vh;
+    padding: 20px 0px;
+    overflow-y: auto;
+}
+
+.room-info-title {
+    font-weight: 600;
+    font-size: 1.2vw;
+}
+
+.room-info-message {
+    font-size: 1vw;
+    color: #666666;
 }

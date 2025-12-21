@@ -8,5 +8,14 @@
   }
 
   .chat-main-section {
+    display: flex;
+    justify-content: space-between;
+  }
 
+  .chat-main-section-title {
+    border-bottom: 2px solid #153085;
+  }
+
+  hr {
+    margin-top: 0;
   }

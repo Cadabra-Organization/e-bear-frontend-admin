@@ -1,0 +1,25 @@
+.chat-container {
+    border: 2px solid #B5B5B5;
+    border-radius: 10px;
+    width: 45%;
+    height: 100vh;
+    padding: 20px 0px;
+}
+
+.chat-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    height: 8%;
+}
+
+.chat-body {
+    height: 84%;
+    overflow: auto;
+}
+
+.chat-header {
+    height: 8%;
+    border-bottom: 1px solid black;
+}

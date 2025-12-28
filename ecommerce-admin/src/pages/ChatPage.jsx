@@ -23,6 +23,31 @@ const ChatPage = () => {
         content:'공지'
     }
 
+    let MessageList = [
+        {isMe:true, name:"나", message: "안녕하세요1", date: "2025-12-28", time: "09:00"},
+        {isMe:false, name:"상대방", message: "안녕하세요1", date: "2025-12-28", time: "09:00"},
+        {isMe:false, name:"상대방", message: "안녕하세요2", date: "2025-12-28", time: "09:00"},
+        {isMe:false, name:"상대방", message: "안녕하세요3", date: "2025-12-28", time: "09:00"},
+        {isMe:true, name:"나", message: "안녕하세요2", date: "2025-12-28", time: "09:00"},
+        {isMe:true, name:"나", message: "안녕하세요3", date: "2025-12-28", time: "09:00"},
+        {isMe:false, name:"상대방", message: "안녕하세요4", date: "2025-12-28", time: "09:00"},
+        {isMe:false, name:"상대방", message: "안녕하세요5", date: "2025-12-28", time: "09:00"},
+        {isMe:false, name:"상대방", message: "안녕하세요5", date: "2025-12-28", time: "09:00"},
+        {isMe:false, name:"상대방", message: "안녕하세요5", date: "2025-12-28", time: "09:00"},
+        {isMe:false, name:"상대방", message: "안녕하세요5", date: "2025-12-28", time: "09:00"},
+        {isMe:false, name:"상대방", message: "안녕하세요5", date: "2025-12-28", time: "09:00"},
+        {isMe:false, name:"상대방", message: "안녕하세요5", date: "2025-12-28", time: "09:00"},
+        {isMe:false, name:"상대방", message: "안녕하세요5", date: "2025-12-28", time: "09:00"},
+        {isMe:false, name:"상대방", message: "안녕하세요5", date: "2025-12-28", time: "09:00"},
+        {isMe:false, name:"상대방", message: "안녕하세요5", date: "2025-12-28", time: "09:00"},
+        {isMe:false, name:"상대방", message: "안녕하세요5", date: "2025-12-28", time: "09:00"},
+        {isMe:false, name:"상대방", message: "안녕하세요5", date: "2025-12-28", time: "09:00"},
+        {isMe:false, name:"상대방", message: "안녕하세요5", date: "2025-12-28", time: "09:00"},
+        {isMe:false, name:"상대방", message: "안녕하세요5", date: "2025-12-28", time: "09:00"},
+        {isMe:false, name:"상대방", message: "안녕하세요5", date: "2025-12-28", time: "09:00"},
+        {isMe:false, name:"상대방", message: "안녕하세요6", date: "2025-12-28", time: "09:00"}
+    ];
+
     return (
         <div className='admin-container'>
             <SideNavigation userInfo={userInfo} navigation={navigation}/>
@@ -34,7 +59,7 @@ const ChatPage = () => {
                         <hr />
                         <div className="chat-main-section">
                             <ChatRoomList />
-                            <Chat />
+                            <Chat messageList={MessageList}/>
                         </div>
                     </div>
                 </div>

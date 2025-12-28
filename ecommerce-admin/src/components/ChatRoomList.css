@@ -2,14 +2,14 @@
     border: 2px solid #B5B5B5;
     border-radius: 10px;
     width: 45%;
-    height: 100vh;
     padding: 20px 0px;
     overflow-y: auto;
+    max-height: 100vh;
 }
 
 .room-info-title {
     font-weight: 600;
-    font-size: 1.2vw;
+    font-size: 1.1vw;
 }
 
 .room-info-message {

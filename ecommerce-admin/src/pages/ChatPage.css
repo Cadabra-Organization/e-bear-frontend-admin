@@ -5,6 +5,7 @@
   .main-section {
     padding-left: 2.34vw;
     padding-top: 2.34vw;
+    min-height: 88vh;
   }
 
   .chat-main-section {

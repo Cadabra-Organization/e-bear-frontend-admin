@@ -1,22 +1,25 @@
 import "./Chat.css";
+import Message from "./Message";
 
-const Chat = () => {
+const Chat = ({messageList}) => {
     return (
         <div className="chat-container">
             <div className="chat-header">
                 <div className="chat-header-title">
-                    <span>1:1 채팅 문의</span>
+                    <span className="chat-header-title-span">1:1 채팅 문의</span>
                 </div>
             </div>
             <div className="chat-body">
-                
+                {messageList.map((data) => 
+                    <Message info={data} />
+                )}
             </div>
             <div className="chat-footer">
                 <div className="chat-footer-input">
-                    <input type="text" placeholder="메세지를 입력하세요." />
+                    <textarea placeholder="채팅을 입력해주세요...."></textarea>
                 </div>
                 <div className="chat-footer-button">
-                    <button>전송</button>
+                    <button id="btn-message-send">전송</button>
                 </div>
             </div>
         </div>

@@ -1,10 +1,11 @@
 import './App.css'
-import NoticePage from './pages/NoticePage'
-import ChatPage from './pages/ChatPage'
+import NoticeDetail from './pages/notice_detail'
+// import NoticeDetail1 from './pages/NoticePage'
+// import NoticeDetail1 from './pages/MemberList'
 
 function App() {
   return (
-    <ChatPage />
+    <NoticeDetail />
   )
 }
 

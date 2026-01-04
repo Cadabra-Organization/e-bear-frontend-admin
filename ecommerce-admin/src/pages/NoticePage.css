@@ -16,3 +16,10 @@
     flex: 1;
   }
 
+  .notice-main-section-title {
+    border-bottom: 2px solid #153085;
+  }
+
+  .notice-main-section-table {
+    margin-top: 20px;
+  }

@@ -1,0 +1,22 @@
+.receipt-space-between {
+    display: flex;
+    justify-content: space-between;
+}
+
+.receipt-margin-bottom {
+    margin-bottom: 20px;
+}
+
+.receipt-margin-top {
+    margin-top: 100px;
+}
+
+.receipt-hr {
+    border: 1px dashed black;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.receipt-table {
+    width: 100%;
+}

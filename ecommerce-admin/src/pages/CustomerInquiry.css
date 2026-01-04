@@ -1,0 +1,128 @@
+.admin-container {
+  display: flex;
+}
+
+.main-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.main-section {
+  padding: 1vw;
+  flex: 1;
+}
+
+.page-header {
+  border-bottom: 2px solid #1e3a8a;
+  margin-bottom: 20px;
+}
+
+.page-header h2 {
+  margin-bottom: 15px;
+  color: #000;
+}
+
+.inquiry-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  table-layout: fixed;
+}
+
+.inquiry-table th,
+.inquiry-table td {
+  border: 1px solid #ddd;
+  padding: 12px 15px;
+  vertical-align: middle;
+}
+
+.inquiry-table th {
+  background-color: #e2e4ed;
+  color: #333;
+  text-align: center;
+}
+
+.inquiry-table td {
+  background-color: #fff;
+  text-align: left;
+}
+
+.answer-status {
+  text-align: center !important;
+}
+
+/* 미답변 */
+.answer-no-complete {
+  display: inline-block;
+  padding: 4px 12px;
+  background-color: #e0f2fe;
+  border-radius: 4px;
+}
+
+/* 답변완료 */
+.answer-complete {
+  display: inline-block;
+  padding: 4px 12px;
+  background-color: #808080;
+  color: #ffffff;
+  border-radius: 4px;
+}
+
+.content-th {
+  height: 200px;
+}
+
+.content-td {
+  vertical-align: top !important;
+  padding: 20px !important;
+}
+
+.answer-textarea {
+  width: 100%;
+  height: 180px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  resize: none;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.answer-textarea:focus {
+  border-color: #1e3a8a;
+}
+
+.inquiry-table th br {
+  display: block;
+  content: "";
+  margin-top: 0;
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.btn {
+  padding: 10px 30px;
+  border: none;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.btn-list {
+  background-color: #333;
+  color: #fff;
+}
+
+.btn-save {
+  background-color: #1e3a8a;
+  color: #fff;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}

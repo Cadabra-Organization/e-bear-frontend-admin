@@ -1,9 +1,9 @@
 import './App.css'
-import ChatPage from './pages/ChatPage'
+import NoticeDetail from './pages/notice_detail'
 
 function App() {
   return (
-    <ChatPage />
+    <NoticeDetail />
   )
 }
 

@@ -16,8 +16,16 @@
     padding-bottom : 1.5%;    
   }
 
+  .notice-main-section-title {
+    border-bottom: 2px solid #153085;
+  }
+
+  hr {
+    margin-top: 0;
+  }
+
   .notice-name {
-    margin: 2.34vw;
+    font-size: 24pt;
   }
 
   .body-container{
@@ -25,20 +33,23 @@
   }
 
   .notice_content {
-    margin: 2.34vw;
-  }
-
-  .notice-textarea {
-    width: 100%;
+    width: 99%;
     height: 500px;
-    box-sizing: border-box;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 20px;
+    overflow: auto;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.12), 
+              0 2px 2px rgba(0,0,0,0.12), 
+              0 4px 4px rgba(0,0,0,0.12), 
+              0 8px 8px rgba(0,0,0,0.12),
+              0 16px 16px rgba(0,0,0,0.12);
   }
 
   .notice-buttons {
     display: flex;
     gap: 10px;
     justify-content: flex-end;
-    margin: 2.34vw;
   }
 
   .notice-btn {
@@ -47,6 +58,7 @@
     border-radius: 5px;
     cursor: pointer;
     font-size: 14px;
+    margin-top: 20px;
   }
 
   .notice-btn-modify {
@@ -67,4 +79,35 @@
 
   .notice-btn-delete:hover {
     background-color: #000000;
+  }
+
+  .post-meta-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+    color: #888;
+    font-size: 14px;
+  }
+  
+  .meta-item {
+    display: flex;
+    align-items: center;
+    /* flex-shrink를 0으로 주어 아이콘이 찌그러지지 않게 방지 */
+  }
+  
+  .meta-icon {
+    display: flex;
+    align-items: center;
+    margin-right: 4px;
+    /* Tailwind 클래스가 안 먹힐 경우를 대비해 여기서 크기 고정 */
+    width: 16px; 
+    height: 16px;
+  }
+  
+  .meta-icon svg {
+    /* svg가 부모(.meta-icon) 크기를 꽉 채우도록 설정 */
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
   }

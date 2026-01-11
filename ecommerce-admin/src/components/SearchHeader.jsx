@@ -19,6 +19,9 @@ const SearchHeader = ({
     searchCondition, handleSearchConditionChange,
     searchText, handleSearchTextChange,
     searchOptions,
+    statusOptions,
+    statusLabel,
+    searchLabel,
     handleSearch,
     onWriteClick
 }) => {
@@ -42,10 +45,22 @@ const SearchHeader = ({
                 </>
             )}
 
-            {/* 검색 조건 드롭다운 */}
+            {/* 검색 조건 드롭다운1 */}
             {searchConfig.showCondition && (
                 <FormControl sx={{ minWidth: 100 }} size="small">
-                    <InputLabel>조건</InputLabel>
+                    <InputLabel>{statusLabel}</InputLabel>
+                    <Select value={searchCondition} label="상태태" onChange={handleSearchConditionChange}>
+                        {statusOptions.map(([key, label]) => (
+                            <MenuItem key={key} value={key}>{label}</MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+            )}
+
+            {/* 검색 조건 드롭다운2 */}
+            {searchConfig.showCondition && (
+                <FormControl sx={{ minWidth: 100 }} size="small">
+                    <InputLabel>{searchLabel}</InputLabel>
                     <Select value={searchCondition} label="조건" onChange={handleSearchConditionChange}>
                         {searchOptions.map(([key, label]) => (
                             <MenuItem key={key} value={key}>{label}</MenuItem>
@@ -65,7 +80,7 @@ const SearchHeader = ({
             <Button variant="outlined" onClick={handleSearch} sx={{ backgroundColor: '#000', color: 'white' }}>검색</Button>
             
             <Box sx={{ ml: 'auto', display: 'flex', gap: 1 }}>
-                {searchConfig.showDelete && <Button variant="outlined" color="error">삭제</Button>}
+                {searchConfig.showDelete && <Button variant="outlined" color="black">선택 삭제</Button>}
                 {searchConfig.showWrite && <Button variant="outlined" onClick={onWriteClick}>글쓰기</Button>}
                 {searchConfig.showDownload && <Button variant="outlined" color="success" >다운로드</Button>}
             </Box>

@@ -1,0 +1,18 @@
+.admin-container {
+    display: flex;
+}
+
+.notice-write-main-section {
+    padding-left: 2.34vw;
+    padding-top: 2.34vw;
+}
+
+.notice-section-title {
+    border-bottom: 2px solid #153085;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+hr {
+    margin: 0 30px 12px 0;
+}

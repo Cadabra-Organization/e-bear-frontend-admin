@@ -46,10 +46,10 @@ const SearchHeader = ({
             )}
 
             {/* 검색 조건 드롭다운1 */}
-            {searchConfig.showCondition && (
+            {searchConfig.showCondition && statusOptions && statusOptions.length > 0 && (
                 <FormControl sx={{ minWidth: 100 }} size="small">
                     <InputLabel>{statusLabel}</InputLabel>
-                    <Select value={searchCondition} label="상태태" onChange={handleSearchConditionChange}>
+                    <Select value={searchCondition} label="상태" onChange={handleSearchConditionChange}>
                         {statusOptions.map(([key, label]) => (
                             <MenuItem key={key} value={key}>{label}</MenuItem>
                         ))}
@@ -58,7 +58,7 @@ const SearchHeader = ({
             )}
 
             {/* 검색 조건 드롭다운2 */}
-            {searchConfig.showCondition && (
+            {searchConfig.showCondition && searchOptions && searchOptions.length > 0 && (
                 <FormControl sx={{ minWidth: 100 }} size="small">
                     <InputLabel>{searchLabel}</InputLabel>
                     <Select value={searchCondition} label="조건" onChange={handleSearchConditionChange}>

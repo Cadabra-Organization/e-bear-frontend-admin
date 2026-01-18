@@ -1,9 +1,9 @@
 import './App.css'
-import NoticeDetail from './pages/notice_detail'
+import TestPage from './pages/TestPage'
 
 function App() {
   return (
-    <NoticeDetail />
+    <TestPage />
   )
 }
 

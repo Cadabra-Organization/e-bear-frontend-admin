@@ -1,0 +1,123 @@
+/* --- 레이어 팝업 스타일 --- */
+.layer-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    overflow: auto;
+    padding: 20px;
+    box-sizing: border-box;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0s 0.3s;
+}
+
+.layer-popup-overlay.show {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease;
+}
+
+.layer-popup-content {
+    background-color: #fff;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    flex-shrink: 0;
+    max-width: 100%; 
+    box-sizing: border-box;
+    transform: translateY(20px) scale(0.95);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.layer-popup-overlay.show .layer-popup-content {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+.layer-popup-content .main-message {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.layer-popup-content .sub-message {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 25px;
+}
+
+.popup-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-popup-confirm,
+.btn-popup-cancel {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    width: 100%;
+}
+
+.btn-popup-confirm {
+    background-color: #FF0038;
+    color: white;
+}
+
+.btn-popup-confirm:hover {
+    background-color: #cc002c;
+}
+
+.btn-popup-cancel {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+.btn-popup-cancel:hover {
+    background-color: #ccc;
+}
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.popup-header .main-message {
+    margin: 0; /* 기본 마진 제거 */
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* 새로운 'X' 닫기 버튼 스타일 */
+.popup-close-btn {
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: 24px; /* 아이콘 크기 키우기 */
+    font-weight: bold;
+    line-height: 1; /* 라인 높이를 조절하여 세로 정렬 미세 조정 */
+    color: #888;
+}
+
+/* 마우스를 올렸을 때 스타일 */
+.popup-close-btn:hover {
+    color: #000;
+}

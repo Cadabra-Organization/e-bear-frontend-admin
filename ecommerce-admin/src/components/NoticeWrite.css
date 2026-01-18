@@ -1,0 +1,16 @@
+.editor-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.btn {
+    width: 94px;
+    height: 60px;
+    cursor: pointer;
+    background: #000000;
+    color: #FFFFFF;
+    font-size: 20px;
+    border: 1px solid #000000;
+}

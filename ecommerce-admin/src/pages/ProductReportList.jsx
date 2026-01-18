@@ -62,7 +62,7 @@ const NoticePage = () => {
 
     const labelConfig = {
         statusLabel: "신고상태",
-        searchLabel: "제품명"
+        searchLabel: "검색조건"
     };
 
     let pageInfo = {
@@ -152,7 +152,7 @@ const NoticePage = () => {
             <div className='main-container'>
                 <Header notice={notice}/>
                 <div className='main-section'>
-                    <span className="notice-main-section-title">공지사항</span>
+                    <span className="notice-main-section-title">상품신고</span>
                     <hr />
                     {/* 순서대로 게시판 데이터, 표 헤더 데이터, 출력 데이터, 검색조건, selectBox라벨 */}
                     <div className="notice-main-section-table">

@@ -79,7 +79,7 @@ function DataTableHead(props) {
   );
 }
 
-export default function DataTableTable ({ pageInfo, headCells, rows, searchConfig, labelConfig }) {
+export default function DataTableTable({ pageInfo, headCells, rows, searchConfig, labelConfig }) {
   const [order, setOrder] = React.useState('asc'); //정렬방향
   const [orderBy, setOrderBy] = React.useState('num'); //정렬기준
   const [selected, setSelected] = React.useState([]); //체크박스 선택값
@@ -96,31 +96,31 @@ export default function DataTableTable ({ pageInfo, headCells, rows, searchConfi
   //검색란 버튼 관리
   const [write, setWrite] = React.useState(false);
 
-  const searchOptions = pageInfo?.searchList 
-    ? Object.entries(pageInfo.searchList) 
+  const searchOptions = pageInfo?.searchList
+    ? Object.entries(pageInfo.searchList)
     : [];
 
-  const statusOptions = pageInfo?.statusList 
-    ? Object.entries(pageInfo.statusList) 
+  const statusOptions = pageInfo?.statusList
+    ? Object.entries(pageInfo.statusList)
     : [];
-  
+
   const handleSearchConditionChange = (event) => {
     setSearchCondition(event.target.value);
   };
-  
+
   const handleSearchTextChange = (event) => {
     setSearchText(event.target.value);
   };
 
   const handleSearch = () => {
-      // 실제 검색 로직 (API 호출 등)이 들어갈 위치
-      console.log('검색 실행:', { 
-          startDate, 
-          endDate, 
-          searchCondition, 
-          searchText 
-      });
-      setPage(0); // 검색 시 첫 페이지로 이동
+    // 실제 검색 로직 (API 호출 등)이 들어갈 위치
+    console.log('검색 실행:', {
+      startDate,
+      endDate,
+      searchCondition,
+      searchText
+    });
+    setPage(0); // 검색 시 첫 페이지로 이동
   };
 
   const handleRequestSort = (event, property) => {
@@ -180,14 +180,16 @@ export default function DataTableTable ({ pageInfo, headCells, rows, searchConfi
   );
   const pageCount = Math.ceil(rows.length / rowsPerPage);
 
+  const renderCellValue = (value) => { if (value === null || value === undefined || value === "") { return "-"; } return value; };
+
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <LocalizationProvider 
+        <LocalizationProvider
           dateAdapter={AdapterDayjs}
           dateFormats={{ keyboardDate: 'YYYY-MM-DD' }}
         >
-          <SearchHeader 
+          <SearchHeader
             searchConfig={searchConfig} // 설정값 전달
             startDate={startDate} setStartDate={setStartDate}
             endDate={endDate} setEndDate={setEndDate}
@@ -245,22 +247,22 @@ export default function DataTableTable ({ pageInfo, headCells, rows, searchConfi
                       />
                     </TableCell>
                     {headCells.map((headCell, cellIndex) => (
-                      <TableCell 
-                            key={headCell.id} 
-                            // 첫 번째 셀 (번호)에만 scope="row"와 component="th"를 적용
-                            component={cellIndex === 0 ? "th" : "td"}
-                            scope={cellIndex === 0 ? "row" : undefined}
-                            id={cellIndex === 0 ? labelId : undefined}
-                            padding={headCell.disablePadding ? 'none' : 'normal'}
-                            align={headCell.align || 'left'}
-                            sx={{
-                                width: headCell.width,
-                                minWidth: headCell.width,
-                                maxWidth: headCell.width,
-                            }}
-                        >
-                            {row[headCell.id]} 
-                        </TableCell>
+                      <TableCell
+                        key={headCell.id}
+                        // 첫 번째 셀 (번호)에만 scope="row"와 component="th"를 적용
+                        component={cellIndex === 0 ? "th" : "td"}
+                        scope={cellIndex === 0 ? "row" : undefined}
+                        id={cellIndex === 0 ? labelId : undefined}
+                        padding={headCell.disablePadding ? 'none' : 'normal'}
+                        align={headCell.align || 'left'}
+                        sx={{
+                          width: headCell.width,
+                          minWidth: headCell.width,
+                          maxWidth: headCell.width,
+                        }}
+                      >
+                        {renderCellValue(row[headCell.id])}
+                      </TableCell>
                     ))}
                   </TableRow>
                 );
@@ -277,17 +279,17 @@ export default function DataTableTable ({ pageInfo, headCells, rows, searchConfi
             </TableBody>
           </Table>
         </TableContainer>
-        <Stack spacing={2} sx={{ 
-          mt: 2, 
-          p: 2, 
-          alignItems: 'center' 
+        <Stack spacing={2} sx={{
+          mt: 2,
+          p: 2,
+          alignItems: 'center'
         }}>
-          <Pagination 
+          <Pagination
             count={pageCount}
             page={page + 1}
             onChange={handleChangePage}
-            showFirstButton 
-            showLastButton 
+            showFirstButton
+            showLastButton
           />
         </Stack>
       </Paper>

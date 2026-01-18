@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import PopUp from '../components/PopUp';
+import CouponPublicationPopUp from '../components/CouponPublicationPopUp';
 import Receipt from '../components/Receipt';
 
 function TestPage() {
@@ -29,7 +30,8 @@ function TestPage() {
       <PopUp
         isOpen={isOpen}
         onClose={(handleReviewPopup)}
-        title={"영수증"}
+        title={"쿠폰발행"}
+        // component={<CouponPublicationPopUp/>}
         component={<Receipt receiptInfo={receiptInfo} />}
       />
     </>

@@ -2,7 +2,7 @@ import "./Receipt.css";
 
 const Receipt = ({receiptInfo}) => {
     return (
-        <div>
+        <div className="receipt-container">
           <div className="receipt-space-between receipt-margin-bottom">
             <div>결제 방법</div>
             <div>{receiptInfo.paymentMethod}</div>

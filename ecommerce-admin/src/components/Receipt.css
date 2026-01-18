@@ -1,3 +1,7 @@
+.receipt-container {
+    width: 450px;
+}
+
 .receipt-space-between {
     display: flex;
     justify-content: space-between;

@@ -157,7 +157,6 @@ const ProductRegister = () => {
             </FormControl>
             <TextField label="₩ 가격을 입력해주세요." variant="standard" sx={{ mr: 1, width: 200 }} />
 
-            {/* --- 옵션 입력 Row 반복 영역 --- */}
             {optionInputs.map((item, index) => (
                 <Box
                     key={item.id}
@@ -168,7 +167,7 @@ const ProductRegister = () => {
                     <TextField label="옵션가격을 입력해주세요." variant="standard" sx={{ width: 180 }} />
                     <TextField label="재고수량을 입력해주세요." variant="standard" type="number" sx={{ width: 180 }} />
 
-                    {/* [핵심 수정] 현재 인덱스가 마지막(length - 1)일 때만 버튼 표시 */}
+                    {/* index가 마지막(length - 1)일 때만 버튼 표시 */}
                     {index === optionInputs.length - 1 && (
                         <Box sx={{ display: 'flex', gap: 0.5, ml: 1 }}>
                             <Button

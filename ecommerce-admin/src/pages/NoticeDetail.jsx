@@ -1,25 +1,23 @@
-import "./notice_detail.css";
-import SideNavigation from "../components/SideNavigation";
-import Header from "../components/Header";
+import "./NoticeDetail.css";
 import { AuthorIcon, CalendarIcon, EyeIcon } from "../components/CustomTag";
 
 const NoticeDetail = () => {
     let navigation = [
-        {subject:'HOME', url:'/admin/home'},
-        {subject:'HOME', url:'/admin/home'},
-        {subject:'HOME', url:'/admin/home'},
-        {subject:'HOME', url:'/admin/home'},
-        {subject:'HOME', url:'/admin/home'},
-        {subject:'HOME', url:'/admin/home'}
+        { subject: 'HOME', url: '/admin/home' },
+        { subject: 'HOME', url: '/admin/home' },
+        { subject: 'HOME', url: '/admin/home' },
+        { subject: 'HOME', url: '/admin/home' },
+        { subject: 'HOME', url: '/admin/home' },
+        { subject: 'HOME', url: '/admin/home' }
     ];
 
     let userInfo = {
-        name:'이베어',
-        email:'ebear@knou.ac.kr'
+        name: '이베어',
+        email: 'ebear@knou.ac.kr'
     }
 
     let notice = {
-        content:'[알림] [안내] 공식대행사 대행관 설정 가이드 공지 및 불법영업 행위 주의 안내'
+        content: '[알림] [안내] 공식대행사 대행관 설정 가이드 공지 및 불법영업 행위 주의 안내'
     }
 
     let contents = `내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.
@@ -120,38 +118,32 @@ const NoticeDetail = () => {
     내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.`;
 
     return (
-        <div className='admin-container'>
-            <SideNavigation userInfo={userInfo} navigation={navigation}/>
-            <div className='main-container'>
-                <Header notice={notice}/>
-                <div className='body-container'>
-                    <span className="notice-main-section-title">공지사항</span>
-                    <hr />
-                    <div className='notice-name'>
-                        제목입니다.
-                    </div>
-                    <div className="post-meta-container">
-                        <div className="meta-item">
-                            <AuthorIcon className="meta-icon" />
-                            <span>홍길동</span>
-                        </div>
-                        
-                        <div className="meta-item">
-                            <CalendarIcon className="meta-icon" />
-                            <span>2024.05.20</span>
-                        </div>
-                        
-                        <div className="meta-item">
-                            <EyeIcon className="meta-icon" />
-                            <span>1,234</span>
-                        </div>
-                    </div>
-                    <div dangerouslySetInnerHTML={{__html: contents}} className="notice_content" />
-                    <div className="notice-buttons">
-                        <button className="notice-btn notice-btn-modify">수정</button>
-                        <button className="notice-btn notice-btn-delete">삭제</button>
-                    </div>
+        <div className='body-container'>
+            <span className="notice-main-section-title">공지사항</span>
+            <hr />
+            <div className='notice-name'>
+                제목입니다.
+            </div>
+            <div className="post-meta-container">
+                <div className="meta-item">
+                    <AuthorIcon className="meta-icon" />
+                    <span>홍길동</span>
                 </div>
+
+                <div className="meta-item">
+                    <CalendarIcon className="meta-icon" />
+                    <span>2024.05.20</span>
+                </div>
+
+                <div className="meta-item">
+                    <EyeIcon className="meta-icon" />
+                    <span>1,234</span>
+                </div>
+            </div>
+            <div dangerouslySetInnerHTML={{ __html: contents }} className="notice_content" />
+            <div className="notice-buttons">
+                <button className="notice-btn notice-btn-modify">수정</button>
+                <button className="notice-btn notice-btn-delete">삭제</button>
             </div>
         </div>
     );

@@ -34,11 +34,10 @@
 
   .notice_content {
     width: 99%;
-    height: 500px;
+    min-height: 500px;
     border-radius: 10px;
     padding: 10px;
     margin-top: 20px;
-    overflow: auto;
     box-shadow: 0 1px 1px rgba(0,0,0,0.12), 
               0 2px 2px rgba(0,0,0,0.12), 
               0 4px 4px rgba(0,0,0,0.12), 

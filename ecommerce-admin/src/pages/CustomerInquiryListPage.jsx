@@ -147,20 +147,11 @@ const CustomerInquiryListPage = () => {
     ];
 
     return (
-        <div className='admin-container' >
-            <SideNavigation userInfo={userInfo} navigation={navigation} />
-            <div className='main-container'>
-                <Header notice={notice} />
-                <div className='main-section'>
-                    <span className="inquiry-main-section-title">고객문의</span>
-                    <hr />
-                    {/* 순서대로 게시판 데이터, 표 헤더 데이터, 출력 데이터, 검색조건 */}
-                    <div className="inquiry-main-section-table">
-                        <DataTable pageInfo={pageInfo} headCells={headCells} rows={rows} searchConfig={searchConfig} labelConfig={labelConfig} />
-                    </div>
-                </div>
-            </div>
-        </div >
+        // <span className="inquiry-main-section-title">고객문의</span>
+        // <hr />
+        <div className="inquiry-main-section-table">
+            <DataTable pageInfo={pageInfo} headCells={headCells} rows={rows} searchConfig={searchConfig} labelConfig={labelConfig} />
+        </div>
     );
 };
 

@@ -23,16 +23,10 @@ const NoticeWritePage = () => {
     }
 
     return (
-        <div className='admin-container'>
-            <SideNavigation userInfo={userInfo} navigation={navigation} />
-            <div className='notice-write-main-container'>
-                <Header notice={notice} />
-                <div className='notice-write-main-section'>
-                    <span className="notice-section-title">공지사항</span>
-                    <hr />
-                    <NoticeWrite />
-                </div>
-            </div>
+        <div className='notice-write-main-section'>
+            <span className="notice-section-title">공지사항</span>
+            <hr />
+            <NoticeWrite />
         </div>
     );
 }

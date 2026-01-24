@@ -21,3 +21,12 @@
   .side-menu-subject {
     padding-left: 1vw;
   }
+
+  a {
+    text-decoration: none;
+    color: white;
+  }
+
+  a:hover {
+    color: blue;
+  }

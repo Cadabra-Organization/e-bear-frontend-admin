@@ -1,7 +1,8 @@
 import "./MemberList.css";
 import SideNavigation from "../components/SideNavigation";
 import Header from "../components/Header";
-import DataTable from "../components/DataTable"; 
+import DataTable from "../components/DataTable";
+import { Button } from "@mui/material";
 
 const generateDummyRows = (count) => {
     const data = [];
@@ -10,15 +11,15 @@ const generateDummyRows = (count) => {
         const year = 2024;
         const month = (i % 12) + 1;
         const monthStr = month < 10 ? `0${month}` : `${month}`;
-        
+
         data.push({
             num: i,
             ID: `KimID`,
-            name: `이동균`, 
-            address: `서울특별시 서초구 우면동`, 
-            phone: '010-1234-1234', 
-            memberAccess: '판매자',  
-            modify: <div class="modify"><button>수정</button></div>
+            name: `이동균`,
+            address: `서울특별시 서초구 우면동`,
+            phone: '010-1234-1234',
+            memberAccess: '판매자',
+            modify: <div class="modify"><Button variant="outlined" color="black">수정</Button></div>
         });
     }
     return data.reverse(); // 역순으로 정렬
@@ -29,12 +30,12 @@ const rows = generateDummyRows(105);
 
 const NoticePage = () => {
     let navigation = [
-        {subject:'HOME', url:'/admin/home'},
-        {subject:'HOME', url:'/admin/home'},
-        {subject:'HOME', url:'/admin/home'},
-        {subject:'HOME', url:'/admin/home'},
-        {subject:'HOME', url:'/admin/home'},
-        {subject:'HOME', url:'/admin/home'}
+        { subject: 'HOME', url: '/admin/home' },
+        { subject: 'HOME', url: '/admin/home' },
+        { subject: 'HOME', url: '/admin/home' },
+        { subject: 'HOME', url: '/admin/home' },
+        { subject: 'HOME', url: '/admin/home' },
+        { subject: 'HOME', url: '/admin/home' }
     ];
 
 
@@ -48,20 +49,20 @@ const NoticePage = () => {
     };
 
     let userInfo = {
-        name:'이베어',
-        email:'ebear@knou.ac.kr'
+        name: '이베어',
+        email: 'ebear@knou.ac.kr'
     }
 
     let notice = {
-        content:'[알림] [안내] 공식대행사 대행관 설정 가이드 공지 및 불법영업 행위 주의 안내'
+        content: '[알림] [안내] 공식대행사 대행관 설정 가이드 공지 및 불법영업 행위 주의 안내'
     }
 
     let titleInfo = {
-        title : '공지사항',
+        title: '공지사항',
     }
 
     let pageInfo = {
-        searchList : {
+        searchList: {
             'all': '전체',
             'ID': '아이디',
             'name': '이름',
@@ -78,7 +79,7 @@ const NoticePage = () => {
             label: '번호',
             width: 60,
             align: 'center',
-        },{
+        }, {
             id: 'ID',
             numeric: false,
             disablePadding: false,
@@ -128,16 +129,15 @@ const NoticePage = () => {
         },
     ];
 
+    const labelConfig = {
+        searchLabel: "검색조건"
+    };
+
     return (
-        <div className='admin-container'>
-            <SideNavigation userInfo={userInfo} navigation={navigation}/>
-            <div className='main-container'>
-                <Header notice={notice} titleInfo={titleInfo}/>
-                <div className='main-section'>
-                    {/* 순서대로 게시판 데이터, 표 헤더 데이터, 출력 데이터, 검색조건 */}
-                    <DataTable pageInfo={pageInfo} headCells={headCells} rows={rows} searchConfig={searchConfig}/>
-                </div>
-            </div>
+        // <Header notice={notice} titleInfo={titleInfo}/>
+        <div className='main-section'>
+            {/* 순서대로 게시판 데이터, 표 헤더 데이터, 출력 데이터, 검색조건 */}
+            <DataTable pageInfo={pageInfo} headCells={headCells} rows={rows} searchConfig={searchConfig} labelConfig={labelConfig} />
         </div>
     );
 };

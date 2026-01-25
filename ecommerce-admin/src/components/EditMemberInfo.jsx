@@ -1,16 +1,15 @@
 import "./EditMemberInfo.css";
-import { Button } from "@mui/material";
+import { Button, TextField, FormControl, Select, MenuItem } from "@mui/material";
 import * as React from 'react';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
 
 
-const EditMemberInfo = ({memberInfo}) => {
-  const [auth, setAuth] = React.useState('');
+const EditMemberInfo = ({memberInfo, onClose}) => {
+  const addressDetailRef = React.useRef(null);
+
+  const [postcode, setPostcode] = React.useState('');
+  const [address, setAddress] = React.useState(memberInfo?.userAdd || '');
+  const [addressDetail, setAddressDetail] = React.useState(memberInfo?.userAdd2 || '');
+  const [auth, setAuth] = React.useState(memberInfo?.userAuthCd || '');  
   
   // 전화번호를 "-"로 분리
   const phoneParts = memberInfo?.phoneNumber ? memberInfo.phoneNumber.split('-') : ['', '', ''];
@@ -21,6 +20,43 @@ const EditMemberInfo = ({memberInfo}) => {
   const handleChange = (event) => {
     setAuth(event.target.value);
   };
+
+  // 카카오 주소 API 실행 함수
+  const handleAddressSearch = () => {
+    new window.daum.Postcode({
+      oncomplete: function (data) {
+        let fullAddress = data.address;
+        let extraAddress = '';
+
+        if (data.userSelectedType === 'R') {
+          if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+            extraAddress += data.bname;
+          }
+          if (data.buildingName !== '' && data.apartment === 'Y') {
+            extraAddress += (extraAddress !== '' ? ', ' + data.buildingName : data.buildingName);
+          }
+          fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
+        }
+
+        // 주소 설정
+        setPostcode(data.zonecode); // 우편번호 필드에 저장
+        setAddress(fullAddress);    // 주소 필드에 저장
+        setAddressDetail('');       // 상세주소 필드는 초기화
+        
+        if (addressDetailRef.current) {
+          addressDetailRef.current.focus();
+        }
+      },
+    }).open();
+  };
+
+  // 카카오 스크립트 로드
+  React.useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
+    script.async = true;
+    document.head.appendChild(script);
+  }, []);
 
   return (
       <div className="member-container">
@@ -48,9 +84,8 @@ const EditMemberInfo = ({memberInfo}) => {
           <div>주소</div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <TextField
-                id="outlined-size-small"
-                defaultValue={memberInfo.userAdd}
-                value={memberInfo.userAdd}
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
                 size="small"
                 sx={{
                   '& .MuiInputBase-root': {
@@ -60,6 +95,7 @@ const EditMemberInfo = ({memberInfo}) => {
               />
               <Button 
                 variant="outlined" 
+                onClick={handleAddressSearch}
                 size="small"
                 sx={{ 
                   backgroundColor: '#000', 
@@ -78,14 +114,28 @@ const EditMemberInfo = ({memberInfo}) => {
         </div>
         <div className="member-space-between member-margin-bottom">
           <div>상세주소</div>
-          <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <TextField
-                id="outlined-size-small"
-                defaultValue={memberInfo.userAdd2}
-                value={memberInfo.userAdd2}
+                inputRef={addressDetailRef} // Ref 연결 
+                value={postcode}
+                // onChange={(e) => setAddressDetail(e.target.value)}
                 size="small"
                 sx={{
                   '& .MuiInputBase-root': {
+                    width: '90px',
+                    height: '30px', // 원하는 높이로 변경 가능
+                  },
+                }}
+              />
+              <TextField
+                inputRef={addressDetailRef} 
+                value={addressDetail}
+                onChange={(e) => setAddressDetail(e.target.value)}
+                size="small"
+                placeholder="상세주소를 입력하세요"
+                sx={{
+                  '& .MuiInputBase-root': {
+                    width: '200px',
                     height: '30px', // 원하는 높이로 변경 가능
                   },
                 }}
@@ -100,9 +150,8 @@ const EditMemberInfo = ({memberInfo}) => {
               defaultValue={phone1}
               size="small"
               sx={{ width: '80px', '& .MuiInputBase-root': {
-                    height: '30px', // 원하는 높이로 변경 가능
+                    height: '30px', 
                   }, }}
-              // inputProps={{ maxLength: 3 }}
             />
             {/* <span>-</span> */}
             <TextField
@@ -110,9 +159,8 @@ const EditMemberInfo = ({memberInfo}) => {
               defaultValue={phone2}
               size="small"
               sx={{ width: '80px','& .MuiInputBase-root': {
-                    height: '30px', // 원하는 높이로 변경 가능
+                    height: '30px', 
                   },}}
-              // inputProps={{ maxLength: 3 }}    
             />
             {/* <span>-</span> */}
             <TextField
@@ -120,9 +168,8 @@ const EditMemberInfo = ({memberInfo}) => {
               defaultValue={phone3}
               size="small"
               sx={{ width: '80px','& .MuiInputBase-root': {
-                    height: '30px', // 원하는 높이로 변경 가능
+                    height: '30px', 
                   }, }}
-              // inputProps={{ maxLength: 3 }}
             />
           </div>
         </div>

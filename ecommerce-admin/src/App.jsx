@@ -10,6 +10,7 @@ import MemberList from './pages/MemberList'
 import CustomerInquiryListPage from './pages/CustomerInquiryListPage'
 import CustomerInquiry from './pages/CustomerInquiry'
 import ProductRegister from './pages/ProductRegister'
+import OrderListPage from './pages/OrderListPage';
 import Header from './components/Header';
 
 function App() {
@@ -45,7 +46,7 @@ function App() {
             <Route path="/proudct" element={<ProductList />} />
             <Route path="/proudct/write" element={<ProductRegister />} />
             <Route path="/member" element={<MemberList />} />
-            {/* <Route path="/order" element={<MainPage />} /> */}
+            <Route path="/order" element={<OrderListPage />} />
             <Route path="/inquiry" element={<CustomerInquiryListPage />} />
             <Route path="/inquiry/view/:id" element={<CustomerInquiry />} />
             <Route path="/inquiry/write" element={<CustomerInquiry />} />

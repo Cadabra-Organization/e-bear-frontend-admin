@@ -1,10 +1,13 @@
 import "./MemberList.css";
+import { useMemo, useState } from 'react';
+import PopUp from '../components/PopUp';
+import EditMemberInfo from '../components/EditMemberInfo';
 import SideNavigation from "../components/SideNavigation";
 import Header from "../components/Header";
 import DataTable from "../components/DataTable";
 import { Button } from "@mui/material";
 
-const generateDummyRows = (count) => {
+const generateDummyRows = (count, setIsOpen) => {
     const data = [];
     for (let i = 1; i <= count; i++) {
         const day = i < 10 ? `0${i}` : `${i}`;
@@ -19,16 +22,26 @@ const generateDummyRows = (count) => {
             address: `서울특별시 서초구 우면동`,
             phone: '010-1234-1234',
             memberAccess: '판매자',
-            modify: <div class="modify"><Button variant="outlined" color="black">수정</Button></div>
+            modify: <div className="modify"><Button variant="outlined" color="black" onClick={() => setIsOpen(true)}>수정</Button></div>
         });
     }
     return data.reverse(); // 역순으로 정렬
 };
 
-// 더미 데이터 갯수 할당 및 생성 
-const rows = generateDummyRows(105);
-
 const NoticePage = () => {
+    const [isOpen, setIsOpen] = useState(false);
+    const handleReviewPopup = () => setIsOpen(false);
+    const rows = useMemo(() => generateDummyRows(105, setIsOpen), []);
+
+    const memberInfo = {
+        userId: 'id111',
+        userNm: '이베어',
+        userAdd: '서울 강동구',
+        userAdd2: '1001호',
+        phoneNumber: '010-1111-1111',
+        userAuthCd: '01',
+    }
+
     let navigation = [
         { subject: 'HOME', url: '/admin/home' },
         { subject: 'HOME', url: '/admin/home' },
@@ -134,11 +147,21 @@ const NoticePage = () => {
     };
 
     return (
-        // <Header notice={notice} titleInfo={titleInfo}/>
+        <>
+        {/* <Header notice={notice} titleInfo={titleInfo}/> */}
         <div className='main-section'>
             {/* 순서대로 게시판 데이터, 표 헤더 데이터, 출력 데이터, 검색조건 */}
             <DataTable pageInfo={pageInfo} headCells={headCells} rows={rows} searchConfig={searchConfig} labelConfig={labelConfig} />
         </div>
+        
+        <PopUp
+            isOpen={isOpen}
+            onClose={(handleReviewPopup)}
+            title={"회원정보 수정"}
+            // component={<CouponPublicationPopUp/>}
+            component={<EditMemberInfo memberInfo={memberInfo} />}
+        />
+        </>
     );
 };
 

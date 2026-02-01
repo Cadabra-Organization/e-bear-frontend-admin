@@ -15,3 +15,12 @@
     padding-right: 1vw;
     flex: 1;
   }
+
+  .login-main-container {
+    display: flex;
+    min-width: 100vw;
+  }
+
+  .login-flex-container {
+    flex: auto;
+  }

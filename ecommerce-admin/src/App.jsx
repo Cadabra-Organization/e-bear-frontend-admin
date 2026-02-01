@@ -1,4 +1,5 @@
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
+import { useState } from 'react';
 import './App.css'
 import SideNavigation from "./components/SideNavigation";
 import MainPage from './pages/MainPage'
@@ -12,8 +13,12 @@ import CustomerInquiry from './pages/CustomerInquiry'
 import ProductRegister from './pages/ProductRegister'
 import OrderListPage from './pages/OrderListPage';
 import Header from './components/Header';
+import Login from './pages/Login'
+import CommonError from './pages/commonError';
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   let userInfo = {
     name: '이베어',
     email: 'ebear@knou.ac.kr'
@@ -30,6 +35,25 @@ function App() {
 
   let notice = {
     content:'[알림] [안내] 공식대행사 대행관 설정 가이드 공지 및 불법영업 행위 주의 안내'
+  }
+
+  if (location.pathname === '/admin/err') {
+    return (
+      <Routes>
+        <Route path="/err" element={<CommonError />} />
+        <Route path="*" element={<CommonError />} />
+      </Routes>
+    );
+  }
+
+  if (!isLoggedIn) {
+    return (
+      
+          <Routes>
+            <Route path="/login" element={<Login onLogin={() => setIsLoggedIn(true)} />} />
+            <Route path="*" element={<Navigate replace to="/login" />} />
+          </Routes>
+    );
   }
 
   return (

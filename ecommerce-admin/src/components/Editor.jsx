@@ -317,7 +317,13 @@ const Editor = ({ value = '', onChange }) => {
         },
     });
 
-    useEffect(() => { console.log(editor); console.log(editor.getAttributes('link')) }, [editor]);
+    useEffect(() => {
+        if (!editor) return;
+
+        if (value !== editor.getHTML()) {
+            editor.commands.setContent(value || "");
+        }
+    }, [editor, value]);
 
     return (
         <div className="editor">

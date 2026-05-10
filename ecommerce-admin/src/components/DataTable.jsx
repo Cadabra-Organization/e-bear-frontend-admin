@@ -241,6 +241,7 @@ export default function DataTableTable({ pageInfo, headCells, rows, searchConfig
                   return (
                     <TableRow
                       hover
+                      onClick={() => detailFunc(row.num)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
@@ -272,24 +273,7 @@ export default function DataTableTable({ pageInfo, headCells, rows, searchConfig
                             maxWidth: headCell.width,
                           }}
                         >
-                          {headCell.id === "subject" ? (
-                            <button
-                              type="button"
-                              onClick={() => detailFunc(row.notificationNo)}
-                              style={{
-                                border: "none",
-                                background: "transparent",
-                                padding: 0,
-                                cursor: "pointer",
-                                font: "inherit",
-                                textAlign: "left"
-                              }}
-                            >
-                              {renderCellValue(row[headCell.id])}
-                            </button>
-                          ) : (
-                            renderCellValue(row[headCell.id])
-                          )}
+                          {renderCellValue(row[headCell.id])}
                         </TableCell>
                       ))}
                     </TableRow>

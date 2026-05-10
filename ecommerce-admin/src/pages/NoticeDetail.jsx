@@ -92,7 +92,10 @@ const NoticeDetail = () => {
             />
 
             <div className="notice-buttons">
-                <button className="notice-btn notice-btn-modify">수정</button>
+                <button
+                    className="notice-btn notice-btn-modify"
+                    onClick={() => navigate(`/notice/edit/${notificationNo}`)}
+                >수정</button>
                 <button
                     className="notice-btn notice-btn-delete"
                     onClick={handleDelete}

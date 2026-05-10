@@ -67,6 +67,7 @@ function App() {
             <Route path="/notice" element={<NoticePage />} />
             <Route path="/notice/detail/:notificationNo" element={<NoticeDetail />} />
             <Route path="/notice/write" element={<NoticeWritePage />} />
+            <Route path="/notice/edit/:notificationNo" element={<NoticeWritePage />} />
             <Route path="/product" element={<ProductList />} />
             <Route path="/product/write" element={<ProductRegister />} />
             <Route path="/member" element={<MemberList />} />

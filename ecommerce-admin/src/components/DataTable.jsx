@@ -79,7 +79,7 @@ function DataTableHead(props) {
   );
 }
 
-export default function DataTableTable({ pageInfo, headCells, rows, searchConfig, labelConfig, writeFunc, deleteFunc, detailFunc }) {
+export default function DataTableTable({ pageInfo, headCells, rows, searchConfig, labelConfig, writeFunc, deleteFunc, detailFunc, handleSearch }) {
   const [order, setOrder] = React.useState('asc'); //정렬방향
   const [orderBy, setOrderBy] = React.useState('num'); //정렬기준
   const [selected, setSelected] = React.useState([]); //체크박스 선택값
@@ -112,17 +112,6 @@ export default function DataTableTable({ pageInfo, headCells, rows, searchConfig
     setSearchText(event.target.value);
   };
 
-  const handleSearch = () => {
-    // 실제 검색 로직 (API 호출 등)이 들어갈 위치
-    console.log('검색 실행:', {
-      startDate,
-      endDate,
-      searchCondition,
-      searchText
-    });
-    setPage(0); // 검색 시 첫 페이지로 이동
-  };
-
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -137,6 +126,14 @@ export default function DataTableTable({ pageInfo, headCells, rows, searchConfig
     }
     setSelected([]);
   };
+
+  const search = () => {
+    handleSearch({
+      type: searchCondition,
+      keyword: searchText
+    });
+    setPage(0);
+  }
 
   const handleClick = (event, id) => {
     const selectedIndex = selected.indexOf(id);
@@ -202,7 +199,7 @@ export default function DataTableTable({ pageInfo, headCells, rows, searchConfig
             statusOptions={statusOptions}
             statusLabel={labelConfig.statusLabel}
             searchLabel={labelConfig.searchLabel}
-            handleSearch={handleSearch}
+            handleSearch={search}
             onWriteClick={() => writeFunc()}
             onDeleteClick={() => deleteFunc(selected)}
           />

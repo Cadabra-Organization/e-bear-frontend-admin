@@ -273,7 +273,24 @@ export default function DataTableTable({ pageInfo, headCells, rows, searchConfig
                             maxWidth: headCell.width,
                           }}
                         >
-                          {renderCellValue(row[headCell.id])}
+                          {headCell.id === "subject" ? (
+                            <button
+                              type="button"
+                              onClick={() => detailFunc(row.num)}
+                              style={{
+                                border: "none",
+                                background: "transparent",
+                                padding: 0,
+                                cursor: "pointer",
+                                font: "inherit",
+                                textAlign: "left"
+                              }}
+                            >
+                              {renderCellValue(row[headCell.id])}
+                            </button>
+                          ) : (
+                            renderCellValue(row[headCell.id])
+                          )}
                         </TableCell>
                       ))}
                     </TableRow>

@@ -11,6 +11,7 @@ import MemberList from './pages/MemberList'
 import CustomerInquiryListPage from './pages/CustomerInquiryListPage'
 import CustomerInquiry from './pages/CustomerInquiry'
 import ProductRegister from './pages/ProductRegister'
+import ProductModify from './pages/ProductModify'
 import OrderListPage from './pages/OrderListPage';
 import Header from './components/Header';
 import Login from './pages/Login'
@@ -27,7 +28,7 @@ function App() {
   let navigation = [
     { subject: 'HOME', url: '/home' },
     { subject: '공지사항', url: '/notice' },
-    { subject: '상품관리', url: '/proudct' },
+    { subject: '상품관리', url: '/product' },
     { subject: '회원목록', url: '/member' },
     { subject: '주문목록', url: '/order' },
     { subject: '문의목록', url: '/inquiry' }
@@ -70,6 +71,7 @@ function App() {
             <Route path="/notice/edit/:notificationNo" element={<NoticeWritePage />} />
             <Route path="/product" element={<ProductList />} />
             <Route path="/product/write" element={<ProductRegister />} />
+            <Route path="/product/modify/:id" element={<ProductModify />} />
             <Route path="/member" element={<MemberList />} />
             <Route path="/order" element={<OrderListPage />} />
             <Route path="/inquiry" element={<CustomerInquiryListPage />} />

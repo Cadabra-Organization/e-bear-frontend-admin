@@ -241,6 +241,7 @@ export default function DataTableTable({ pageInfo, headCells, rows, searchConfig
                   return (
                     <TableRow
                       hover
+                      onClick={() => detailFunc(row.num)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}

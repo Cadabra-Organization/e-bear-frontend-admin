@@ -275,7 +275,7 @@ export default function DataTableTable({ pageInfo, headCells, rows, searchConfig
                           {headCell.id === "subject" ? (
                             <button
                               type="button"
-                              onClick={() => detailFunc(row.notificationNo)}
+                              onClick={() => detailFunc(row.num)}
                               style={{
                                 border: "none",
                                 background: "transparent",

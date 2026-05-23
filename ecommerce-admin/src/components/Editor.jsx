@@ -19,7 +19,7 @@ const uploadImage = async (file) => {
     formData.append('file', file);
 
     try {
-        const response = await axios.post('/product/image/upload', formData, {
+        const response = await axios.post('/file/image/upload', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data', 
             }
@@ -358,12 +358,12 @@ const Editor = ({ value = '', onChange }) => {
     });
 
     useEffect(() => {
-        if (editor && value !== editor.getHTML()) {
-            editor.commands.setContent(value);
+        if (!editor) return;
+
+        if (value !== editor.getHTML()) {
+            editor.commands.setContent(value || "");
         }
-    }, [value, editor]);
-    
-    useEffect(() => { console.log(editor); console.log(editor.getAttributes('link')) }, [editor]);
+    }, [editor, value]);
 
     return (
         <div className="editor">

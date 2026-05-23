@@ -1,25 +1,57 @@
 import "./NoticeWrite.css";
 import Editor from "./Editor";
 import api from "../api/axios";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 const NoticeWrite = () => {
     const navigate = useNavigate();
+    const { notificationNo } = useParams();
+
+    const isEditMode = !!notificationNo;
+
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
 
+    useEffect(() => {
+        if (!isEditMode) return;
+
+        const fetchNoticeDetail = async () => {
+            try {
+                const response = await api.get(`/notification/detail/${notificationNo}`);
+                const notice = response.data;
+
+                setTitle(notice.title || "");
+                setContent(notice.content || "");
+            } catch (err) {
+                console.error("공지사항 수정용 상세 조회 실패:", err);
+                console.error(err.response?.status);
+                console.error(err.response?.data);
+                alert("공지사항 정보를 불러오지 못했습니다.");
+                navigate("/notice");
+            }
+        };
+
+        fetchNoticeDetail();
+    }, [isEditMode, notificationNo, navigate]);
+
     const onClickEvent = async () => {
         try {
-            const response = await api.post(
-                "/notification/write",
-                {
+            if (isEditMode) {
+                await api.put(`/notification/update/${notificationNo}`, {
                     title,
                     content,
-                }
-            );
+                });
 
-            alert("공지사항이 등록되었습니다.");
+                alert("공지사항이 수정되었습니다.");
+            } else {
+                await api.post("/notification/write", {
+                    title,
+                    content,
+                });
+
+                alert("공지사항이 등록되었습니다.");
+            }
             navigate("/notice");
         } catch (err) {
             console.error("등록 실패:", err);
@@ -52,7 +84,9 @@ const NoticeWrite = () => {
                             className="btn cancel"
                             onClick={() => navigate("/notice")}
                         >취소</button>
-                        <button onClick={onClickEvent} className="btn submit">등록</button>
+                        <button onClick={onClickEvent} className="btn submit">
+                            {isEditMode ? "수정" : "등록"}
+                        </button>
                     </div>
                 </div>
             </div>

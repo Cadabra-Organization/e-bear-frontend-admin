@@ -9,14 +9,15 @@ const NoticePage = () => {
     const [rows, setRows] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const [isAdmin, setIsAdmin] = useState(false);
 
     // 보여주고 싶은 검색 조건 설정 (SearchHeader를 제어)
     const searchConfig = {
         showDate: true,      // 날짜 검색 
         showCondition: true, // 검색조건 선택 
         showText: true,      // 검색어 입력 
-        showDelete: true,    // 삭제 버튼 
-        showWrite: true,      // 글쓰기 버튼 
+        showDelete: isAdmin,    // 삭제 버튼 
+        showWrite: isAdmin,      // 글쓰기 버튼 
     };
 
     let pageInfo = {
@@ -82,7 +83,8 @@ const NoticePage = () => {
 
             const response = await api.get("/notification/list");
 
-            const mappedRows = response.data.map((item) => ({
+            console.log(response);
+            const mappedRows = response.data.notifications.map((item) => ({
                 num: item.notificationNo,
                 subject: item.title,
                 writer: item.writer,
@@ -92,6 +94,7 @@ const NoticePage = () => {
             }));
 
             setRows(mappedRows);
+            setIsAdmin(response.data.isAdmin);
         } catch (err) {
             console.error("공지사항 목록 조회 실패:", err);
             console.error("status:", err.response?.status);

@@ -121,6 +121,7 @@ const ProductModify = () => {
         const productData = {
             productId: id,
             productName: title,
+            title: title,
             deliveryPrice: deliveryPrice,
             deliveryDays: deliveryDays,
             productStatus: saleStatus,

@@ -12,15 +12,6 @@ const ProductList = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
-    let navigation = [
-        { subject: 'HOME', url: '/admin/home' },
-        { subject: 'HOME', url: '/admin/home' },
-        { subject: 'HOME', url: '/admin/home' },
-        { subject: 'HOME', url: '/admin/home' },
-        { subject: 'HOME', url: '/admin/home' },
-        { subject: 'HOME', url: '/admin/home' }
-    ];
-
     // 보여주고 싶은 검색 조건 설정 (SearchHeader를 제어)
     const searchConfig = {
         showCondition: true,  // 검색조건 선택 
@@ -30,19 +21,6 @@ const ProductList = () => {
         showDownload: true,   // 다운로드 버튼 
     };
 
-    let userInfo = {
-        name: '이베어',
-        email: 'ebear@knou.ac.kr'
-    }
-
-    let notice = {
-        content: '[알림] [안내] 공식대행사 대행관 설정 가이드 공지 및 불법영업 행위 주의 안내'
-    }
-
-    let titleInfo = {
-        title: '상품관리',
-    }
-
     const labelConfig = {
         searchLabel: "검색조건"
     };
@@ -50,8 +28,8 @@ const ProductList = () => {
     let pageInfo = {
         searchList: {
             'all': '전체',
-            'title': '제품명',
-            'seq': '번호',
+            'name': '제품명',
+            'id': '번호',
             'seller': '판매자',
         }
     }
@@ -139,6 +117,36 @@ const ProductList = () => {
         location.href= import.meta.env.VITE_USER_URL + '/product/view/' + key;
     }
 
+    async function deleteProduct(key) {
+        const response = await api.post("/product/delete", {
+          key: key  
+        });
+        
+        console.log(response);
+    }
+
+    async function handleSearch (obj) {
+        const response = await api.get("/product/list", {
+            params: {
+                type: obj.type,
+                keyword: obj.keyword
+            }
+        });
+        
+        const mappedRows = response.data.map((item) => ({
+            num: item.productId,
+            subject: item.productName,
+            writer: item.seller,
+            regDt: item.regDttm,
+            saleStatusValue: item.productStatus,
+            modifyBtn: (
+                <Button variant="outlined" sx={{ backgroundColor: '#000', color: 'white' }} onClick={() => updateProduct(item.productId)}>수정하기</Button>
+            ),
+        }));
+
+        setRows(mappedRows);
+    };
+
     useEffect(() => {
         fetchProductList();
     }, []);
@@ -152,10 +160,8 @@ const ProductList = () => {
     }
 
     return (
-        // <span className="notice-main-section-title">{titleInfo.title}</span>
-        //             <hr />
         <div className = "notice-main-section-table" >
-            <DataTable pageInfo={pageInfo} headCells={headCells} rows={rows} searchConfig={searchConfig} labelConfig={labelConfig} writeFunc={() => navigate('/product/write')} detailFunc={selectProduct}/>
+            <DataTable pageInfo={pageInfo} headCells={headCells} rows={rows} searchConfig={searchConfig} labelConfig={labelConfig} writeFunc={() => navigate('/product/write')} detailFunc={selectProduct} deleteFunc={deleteProduct} handleSearch={handleSearch}/>
         </div >
     );
 };

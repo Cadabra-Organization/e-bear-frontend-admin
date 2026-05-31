@@ -76,24 +76,26 @@ const NoticePage = () => {
         searchLabel: "검색조건"
     };
 
+    const mapNoticeRows = (notifications) => {
+        return notifications.map((item) => ({
+            num: item.notificationNo,
+            subject: item.title,
+            writer: item.writer,
+            regDt: item.regDt ? item.regDt.substring(0, 10) : "",
+            viewCnt: item.viewCnt,
+            notificationNo: item.notificationNo,
+        }));
+    };
+
     const fetchNoticeList = async () => {
         try {
             setLoading(true);
             setError("");
 
             const response = await api.get("/notification/list");
-
             console.log(response);
-            const mappedRows = response.data.notifications.map((item) => ({
-                num: item.notificationNo,
-                subject: item.title,
-                writer: item.writer,
-                regDt: item.regDt ? item.regDt.substring(0, 10) : "",
-                viewCnt: item.viewCnt,
-                notificationNo: item.notificationNo,
-            }));
 
-            setRows(mappedRows);
+            setRows(mapNoticeRows(response.data.notifications));
             setIsAdmin(response.data.isAdmin);
         } catch (err) {
             console.error("공지사항 목록 조회 실패:", err);
@@ -102,6 +104,30 @@ const NoticePage = () => {
             setError("공지사항 목록을 불러오지 못했습니다.");
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleSearch = async (searchParams) => {
+        try {
+            setError("");
+
+            const response = await api.get("/notification/search", {
+                params: {
+                    condition: searchParams.condition,
+                    keyword: searchParams.keyword,
+                    startDate: searchParams.startDate,
+                    endDate: searchParams.endDate,
+                }
+            });
+            console.log(response);       
+            
+            setRows(mapNoticeRows(response.data.notifications));
+            setIsAdmin(response.data.isAdmin);
+        } catch (err) {
+            console.error("공지사항 검색 실패:", err);
+            console.error("status:", err.response?.status);
+            console.error("data:", err.response?.data);
+            setError("공지사항 검색 중 오류가 발생했습니다.");
         }
     };
 
@@ -152,7 +178,8 @@ const NoticePage = () => {
                 labelConfig={labelConfig}
                 writeFunc={() => navigate('/notice/write')}
                 deleteFunc={handleDelete}
-                detailFunc={handleDetail} />
+                detailFunc={handleDetail}
+                handleSearch={handleSearch} />
         </div>
     );
 };

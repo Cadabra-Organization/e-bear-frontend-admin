@@ -130,7 +130,9 @@ export default function DataTableTable({ pageInfo, headCells, rows, searchConfig
   const search = () => {
     handleSearch({
       type: searchCondition,
-      keyword: searchText
+      keyword: searchText,
+      startDate: startDate ? startDate.format("YYYY-MM-DD") : null,
+      endDate: endDate ? endDate.format("YYYY-MM-DD") : null,
     });
     setPage(0);
   }

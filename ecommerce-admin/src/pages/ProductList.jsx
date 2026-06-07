@@ -90,7 +90,7 @@ const ProductList = () => {
             setLoading(true);
             setError("");
 
-            const response = await api.get("/product/list");
+            const response = await api.get("/product/list/admin");
             const mappedRows = response.data.map((item) => ({
                 num: item.productId,
                 subject: item.productName,
@@ -126,7 +126,7 @@ const ProductList = () => {
     }
 
     async function handleSearch (obj) {
-        const response = await api.get("/product/list", {
+        const response = await api.get("/product/list/admin", {
             params: {
                 type: obj.type,
                 keyword: obj.keyword

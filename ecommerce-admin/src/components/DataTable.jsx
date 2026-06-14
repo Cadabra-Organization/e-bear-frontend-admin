@@ -79,7 +79,7 @@ function DataTableHead(props) {
   );
 }
 
-export default function DataTableTable({ pageInfo, headCells, rows, searchConfig, labelConfig, writeFunc, deleteFunc, detailFunc, handleSearch }) {
+export default function DataTableTable({ pageInfo, headCells, rows, searchConfig, labelConfig, writeFunc, deleteFunc, detailFunc, handleSearch, couponFunc }) {
   const [order, setOrder] = React.useState('asc'); //정렬방향
   const [orderBy, setOrderBy] = React.useState('num'); //정렬기준
   const [selected, setSelected] = React.useState([]); //체크박스 선택값
@@ -203,6 +203,7 @@ export default function DataTableTable({ pageInfo, headCells, rows, searchConfig
             searchLabel={labelConfig.searchLabel}
             handleSearch={search}
             onWriteClick={() => writeFunc()}
+            onCouponClick={() => couponFunc()}
             onDeleteClick={() => deleteFunc(selected)}
           />
         </LocalizationProvider>

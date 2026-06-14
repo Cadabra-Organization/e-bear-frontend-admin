@@ -19,6 +19,7 @@ const ProductList = () => {
         showDelete: true,     // 삭제 버튼 
         showWrite: true,      // 글쓰기 버튼 
         showDownload: true,   // 다운로드 버튼 
+        showCoupon: true,      // 쿠폰 버튼
     };
 
     const labelConfig = {
@@ -161,7 +162,7 @@ const ProductList = () => {
 
     return (
         <div className = "notice-main-section-table" >
-            <DataTable pageInfo={pageInfo} headCells={headCells} rows={rows} searchConfig={searchConfig} labelConfig={labelConfig} writeFunc={() => navigate('/product/write')} detailFunc={selectProduct} deleteFunc={deleteProduct} handleSearch={handleSearch}/>
+            <DataTable pageInfo={pageInfo} headCells={headCells} rows={rows} searchConfig={searchConfig} labelConfig={labelConfig} writeFunc={() => navigate('/product/write')} detailFunc={selectProduct} deleteFunc={deleteProduct} handleSearch={handleSearch} couponFunc={() => console.log('쿠폰등록')}/>
         </div >
     );
 };

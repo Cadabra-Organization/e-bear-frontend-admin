@@ -24,6 +24,7 @@ const SearchHeader = ({
     searchLabel,
     handleSearch,
     onWriteClick,
+    onCouponClick,
     onDeleteClick
 }) => {
     return (
@@ -85,6 +86,7 @@ const SearchHeader = ({
                     <Button variant="outlined" color="black" onClick={onDeleteClick}>
                         선택 삭제
                     </Button>}
+                {searchConfig.showCoupon && <Button variant="outlined" onClick={onCouponClick}>쿠폰</Button>}
                 {searchConfig.showWrite && <Button variant="outlined" onClick={onWriteClick}>글쓰기</Button>}
                 {searchConfig.showDownload && <Button variant="outlined" color="success" >다운로드</Button>}
             </Box>

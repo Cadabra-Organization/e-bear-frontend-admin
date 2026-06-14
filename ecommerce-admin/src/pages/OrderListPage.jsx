@@ -1,17 +1,10 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import "./OrderListPage.css";
 import PopUp from '../components/PopUp';
 import Receipt from '../components/Receipt';
 import DataTable from "../components/DataTable";
 import { Button } from "@mui/material";
-
-const PRODUCT_NAMES = [
-  "오브제 헤어 드라이기 UN-B1919N",
-  "에어팟 프로 2세대",
-  "갤럭시 버즈3 프로",
-]
-
-const ORDER_STATUSES = ["PAY_DONE", "SHIPPING", "DELIVERED"];
+import api from "../api/axios";
 
 const ORDER_STATUS_LABEL = {
   PAY_DONE: "결제완료",
@@ -19,53 +12,60 @@ const ORDER_STATUS_LABEL = {
   DELIVERED: "배송완료",
 };
 
-const generateDummyRows = (count, onReceiptClick) => {
-  const data = [];
-  for (let i = 1; i <= count; i++) {
-    const productName = PRODUCT_NAMES[i % PRODUCT_NAMES.length];
-    const day = i < 10 ? `0${i}` : `${i}`;
-    const year = 2024;
-    const month = (i % 12) + 1;
-    const monthStr = month < 10 ? `0${month}` : `${month}`;
-    const quantity = 999;
-    const price = 100000000;
-    const orderStatusCode = ORDER_STATUSES[i % ORDER_STATUSES.length];
-    const orderStatus = ORDER_STATUS_LABEL[orderStatusCode];
-
-    const row = {
-      num: i,
-      productName,
-      quantity,
-      price: price.toLocaleString(),
-      customer: '김철수',
-      paidDt: `${year}-${monthStr}-${day}`,
-      orderStatus,
-      orderStatusCode,
-    };
-
-    row.receipt = (
-      <Button
-        variant="outlined"
-        size="small"
-        sx={{ backgroundColor: '#000', color: 'white' }}
-        onClick={(e) => { onReceiptClick?.(); }}
-      >
-        확인하기
-      </Button>
-    );
-    data.push(row);
-  }
-  return data.reverse(); // 역순으로 정렬
-};
-
 const OrderListPage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const openReceiptPopup = () => setIsOpen(true);
   const handleClosePopup = () => setIsOpen(false);
+  const [rows, setRows] = useState([]);
 
-  // rows는 한 번만 만들도록 함
-  const rows = useMemo(() => generateDummyRows(105, openReceiptPopup), []);
+  const fetchOrderList = async () => {
+    try {
+        const response = await api.get("/order/list");
+        const mappedRows = response.data.flatMap((item) => {
+      
+          if (!item.productOptions || item.productOptions.length === 0) {
+            return [{
+              num: item.orderPaymentId,
+              productName: item.productName,
+              quantity: 0,
+              price: 0,
+              customer: item.receiver || "정보 없음",
+              paidDt: item.orderDate, 
+              orderStatus: item.orderStatus,
+              orderStatusCode: item.orderStatus,
+              receipt: (
+                <Button variant="outlined" sx={{ backgroundColor: '#000', color: 'white' }} onClick={() => updateProduct(item.paymentId)}>영수증</Button>
+              ),
+            }];
+          }
+    
+          return item.productOptions.map((option) => ({
+            num: item.orderPaymentId,           
+            productName: option.productOptionName, 
+            quantity: option.quantity,            
+            price: option.price,                   
+            customer: item.receiver || "정보 없음",  
+            paidDt: item.orderDate,               
+            orderStatus: item.orderStatus,       
+            orderStatusCode: item.orderStatus,
+            receipt: (
+              <Button variant="outlined" sx={{ backgroundColor: '#000', color: 'white' }} onClick={() => updateProduct(item.paymentId)}>영수증</Button>
+            ),
+          }));
+        });
+    
+        setRows(mappedRows);
+    } catch (err) {
+        console.error("상품 목록 조회 실패:", err);
+        console.error("status:", err.response?.status);
+        console.error("data:", err.response?.data);
+    }
+  };
 
+  useEffect(() => {
+    fetchOrderList();
+  }, []);
+  
   const receiptInfo = {
     paymentMethod: '신용카드',
     orderNumber: '1234567890',

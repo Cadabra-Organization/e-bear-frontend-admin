@@ -1,50 +1,12 @@
 import "./CustomerInquiryListPage.css";
-import SideNavigation from "../components/SideNavigation";
-import Header from "../components/Header";
+import api from "../api/axios";
 import DataTable from "../components/DataTable";
-
-const PRODUCT_NAMES = [
-    "오브제 헤어 드라이기 UN-B1919N",
-    "에어팟 프로 2세대",
-    "갤럭시 버즈3 프로",
-]
-
-const generateDummyRows = (count) => {
-    const data = [];
-    for (let i = 1; i <= count; i++) {
-        const productName = PRODUCT_NAMES[i % PRODUCT_NAMES.length];
-        const day = i < 10 ? `0${i}` : `${i}`;
-        const year = 2024;
-        const month = (i % 12) + 1;
-        const monthStr = month < 10 ? `0${month}` : `${month}`;
-        const isResponded = i % 3 === 0 ? "N" : "Y";
-
-        data.push({
-            num: i,
-            productName,
-            subject: `고객문의 제목 ${i}입니다.`,
-            customer: '김철수',
-            regDt: `${year}-${monthStr}-${day}`,
-            respondDt: isResponded === "Y" ? `${year}-${monthStr}-${day}` : null,
-            responder: isResponded === "Y" ? "김영희" : null,
-            isResponded,
-        });
-    }
-    return data.reverse(); // 역순으로 정렬
-};
-
-// 더미 데이터 갯수 할당 및 생성 
-const rows = generateDummyRows(105);
+import { useEffect, useState } from "react";
 
 const CustomerInquiryListPage = () => {
-    let navigation = [
-        { subject: 'HOME', url: '/admin/home' },
-        { subject: 'HOME', url: '/admin/home' },
-        { subject: 'HOME', url: '/admin/home' },
-        { subject: 'HOME', url: '/admin/home' },
-        { subject: 'HOME', url: '/admin/home' },
-        { subject: 'HOME', url: '/admin/home' }
-    ];
+    const [rows, setRows] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
 
     // 보여주고 싶은 검색 조건 설정 (SearchHeader를 제어)
     const searchConfig = {
@@ -54,19 +16,6 @@ const CustomerInquiryListPage = () => {
         showDelete: true,    // 삭제 버튼 
         showWrite: false,      // 글쓰기 버튼
     };
-
-    let userInfo = {
-        name: '이베어',
-        email: 'ebear@knou.ac.kr'
-    }
-
-    let notice = {
-        content: '[알림] [안내] 공식대행사 대행관 설정 가이드 공지 및 불법영업 행위 주의 안내'
-    }
-
-    let titleInfo = {
-        title: '고객문의',
-    }
 
     const labelConfig = {
         statusLabel: "답변유무",
@@ -146,11 +95,53 @@ const CustomerInquiryListPage = () => {
         },
     ];
 
+    const mapInquiryRows = (inquiries) => {
+        return inquiries.map((item) => ({
+            num: item.inquiryNo,
+            inquiryNo: item.inquiryNo,
+            productName: item.productName,
+            subject: item.title,
+            customer: item.customer,
+            regDt: item.regDt ? item.regDt.substring(0, 10) : "",
+            respondDt: item.respondDt ? item.regDt.substring(0, 10) : "-",
+            responder: item.responder ?? "-",
+        }));
+    };
+
+    const fetchInquiryList = async () => {
+        try {
+            setLoading(true);
+            setError("");
+
+            const response = await api.get("/inquiry/admin/list");
+            console.log(response);
+
+            setRows(mapInquiryRows(response.data));
+        } catch (err) {
+            console.error("고객문의 목록 조회 실패:", err);
+            console.error("status:", err.response?.status);
+            console.error("data:", err.response?.data);
+            setError("고객문의 목록을 불러오지 못했습니다.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchInquiryList();
+    }, []);
+
+    if (loading) {
+        return <div className="notice-main-section-table">로딩 중...</div>;
+    }
+
+    if (error) {
+        return <div className="notice-main-section-table">{error}</div>;
+    }
+
     return (
-        // <span className="inquiry-main-section-title">고객문의</span>
-        // <hr />
         <div className="inquiry-main-section-table">
-            <DataTable pageInfo={pageInfo} headCells={headCells} rows={rows} searchConfig={searchConfig} labelConfig={labelConfig} writeFunc={() => console.log('글쓰기 버튼')} selectFunc={() => console.log('')}/>
+            <DataTable pageInfo={pageInfo} headCells={headCells} rows={rows} searchConfig={searchConfig} labelConfig={labelConfig} writeFunc={() => console.log('글쓰기 버튼')} selectFunc={() => console.log('')} />
         </div>
     );
 };

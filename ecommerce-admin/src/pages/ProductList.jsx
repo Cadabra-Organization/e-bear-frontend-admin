@@ -4,6 +4,8 @@ import DataTable from "../components/DataTable";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
+import PopUp from '../components/PopUp';
+import Coupon from '../components/Coupon';
 
 
 const ProductList = () => {
@@ -11,6 +13,24 @@ const ProductList = () => {
     const [rows, setRows] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const [isOpen, setIsOpen] = useState(false);
+    const handleOpenPopup = () => setIsOpen(true);
+    const handleClosePopup = () => setIsOpen(false);
+
+    const receiptInfo = {
+        paymentMethod: '신용카드',
+        orderNumber: '1234567890',
+        orderDate: '2025-01-01 19:15:33',
+        orderAmount: 100000,
+        seller: '드라이기만 판매하는 판매자',
+        totalAmount: 100000,
+        discountInfo: '30%',
+        orderList: [
+          { productName: "드라이기", amount: "1", price: "10,000원" },
+          { productName: "드라이기", amount: "1", price: "10,000원" },
+          { productName: "드라이기", amount: "1", price: "10,000원" }
+        ]
+      }
 
     // 보여주고 싶은 검색 조건 설정 (SearchHeader를 제어)
     const searchConfig = {
@@ -161,9 +181,17 @@ const ProductList = () => {
     }
 
     return (
-        <div className = "notice-main-section-table" >
-            <DataTable pageInfo={pageInfo} headCells={headCells} rows={rows} searchConfig={searchConfig} labelConfig={labelConfig} writeFunc={() => navigate('/product/write')} detailFunc={selectProduct} deleteFunc={deleteProduct} handleSearch={handleSearch} couponFunc={() => console.log('쿠폰등록')}/>
-        </div >
+        <>
+            <div className = "notice-main-section-table" >
+                <DataTable pageInfo={pageInfo} headCells={headCells} rows={rows} searchConfig={searchConfig} labelConfig={labelConfig} writeFunc={() => navigate('/product/write')} detailFunc={selectProduct} deleteFunc={deleteProduct} handleSearch={handleSearch} couponFunc={handleOpenPopup}/>
+            </div >
+            <PopUp
+            isOpen={isOpen}
+            onClose={handleClosePopup}
+            title={"쿠폰"}
+            component={<Coupon receiptInfo={receiptInfo} />}
+        />
+      </>
     );
 };
 

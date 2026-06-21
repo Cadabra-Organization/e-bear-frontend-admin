@@ -1,0 +1,149 @@
+import "./CustomerReportListPage.css";
+import api from "../api/axios";
+import DataTable from "../components/DataTable";
+import { useEffect, useState } from "react";
+
+const CustomerReportListPage = () => {
+    const [rows, setRows] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
+
+    // 보여주고 싶은 검색 조건 설정 (SearchHeader를 제어)
+    const searchConfig = {
+        showDate: false,      // 날짜 검색 
+        showCondition: true, // 검색조건 선택 
+        showText: true,      // 검색어 입력 
+        showDelete: true,    // 삭제 버튼 
+        showWrite: false,      // 글쓰기 버튼
+    };
+
+    const labelConfig = {
+        statusLabel: "답변유무",
+        searchLabel: "검색조건"
+    };
+
+    let pageInfo = {
+        searchList: {
+            all: "전체",
+            productName: "제품명",
+            title: "제목",
+        },
+        statusList: {
+            all: "전체",
+            Y: "답변완료",
+            N: "미답변",
+        },
+    };
+
+    // 테이블 헤더 정의
+    let headCells = [
+        {
+            id: 'num',
+            numeric: false,
+            disablePadding: true,
+            label: '번호',
+            width: 60,
+            align: 'center',
+        },
+        {
+            id: 'productName',
+            numeric: false,
+            disablePadding: false,
+            label: '제품명',
+            width: 200,
+            align: 'center',
+        },
+        {
+            id: 'subject',
+            numeric: false,
+            disablePadding: false,
+            label: '제목',
+            width: 320,
+            align: 'left',
+        },
+        {
+            id: 'customer',
+            numeric: true,
+            disablePadding: false,
+            label: '고객명',
+            width: 70,
+            align: 'center',
+        },
+        {
+            id: 'regDt',
+            numeric: true,
+            disablePadding: false,
+            label: '등록일자',
+            width: 90,
+            align: 'center',
+        },
+        {
+            id: 'respondDt',
+            numeric: true,
+            disablePadding: false,
+            label: '답변일자',
+            width: 90,
+            align: 'center',
+        },
+        {
+            id: 'responder',
+            numeric: false,
+            disablePadding: false,
+            label: '답변자',
+            width: 70,
+            align: 'center',
+        },
+    ];
+
+    const mapReportRows = (report) => {
+        return report.map((item) => ({
+            num: item.reportNo,
+            reportNo: item.reportNo,
+            productName: item.productName,
+            subject: item.title,
+            customer: item.customer,
+            regDt: item.regDt ? item.regDt.substring(0, 10) : "",
+            respondDt: item.respondDt ? item.regDt.substring(0, 10) : "-",
+            responder: item.responder ?? "-",
+        }));
+    };
+
+    const fetchReportList = async () => {
+        try {
+            setLoading(true);
+            setError("");
+
+            const response = await api.get("/report/admin/list");
+            console.log(response);
+
+            setRows(mapReportRows(response.data));
+        } catch (err) {
+            console.error("신고문의 목록 조회 실패:", err);
+            console.error("status:", err.response?.status);
+            console.error("data:", err.response?.data);
+            setError("신고문의 목록을 불러오지 못했습니다.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchReportList();
+    }, []);
+
+    if (loading) {
+        return <div className="notice-main-section-table">로딩 중...</div>;
+    }
+
+    if (error) {
+        return <div className="notice-main-section-table">{error}</div>;
+    }
+
+    return (
+        <div className="report-main-section-table">
+            <DataTable pageInfo={pageInfo} headCells={headCells} rows={rows} searchConfig={searchConfig} labelConfig={labelConfig} writeFunc={() => console.log('글쓰기 버튼')} selectFunc={() => console.log('')} />
+        </div>
+    );
+};
+
+export default CustomerReportListPage;

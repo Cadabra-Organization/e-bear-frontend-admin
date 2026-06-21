@@ -16,6 +16,7 @@ import OrderListPage from './pages/OrderListPage';
 import Header from './components/Header';
 import Login from './pages/Login'
 import CommonError from './pages/commonError';
+import CustomerReportListPage from './pages/CustomerReportListPage';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -31,7 +32,11 @@ function App() {
     { subject: '상품관리', url: '/product' },
     { subject: '회원목록', url: '/member' },
     { subject: '주문목록', url: '/order' },
-    { subject: '문의목록', url: '/inquiry' }
+    { subject: '문의목록', url: '/inquiry' , subMenu : [
+      {subject: '고객문의', url: '/inquiry'},
+      {subject: '신고문의', url: '/report'},
+      {subject: '1:1문의', url: '/chat'},
+    ]}
   ];
 
   let notice = {
@@ -77,6 +82,7 @@ function App() {
             <Route path="/inquiry" element={<CustomerInquiryListPage />} />
             <Route path="/inquiry/view/:id" element={<CustomerInquiry />} />
             <Route path="/inquiry/write" element={<CustomerInquiry />} />
+            <Route path="/report" element={<CustomerReportListPage />} />
           </Routes>
         </div>
       </div>

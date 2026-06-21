@@ -1,0 +1,149 @@
+.coupon-container {
+    padding: 10px 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 440px;
+    font-family: 'Inter', -apple-system, sans-serif;
+    max-height: 72vh;
+    overflow-y: auto;
+}
+
+/* 세그먼트 탭 스타일 */
+.tab-wrapper {
+    background-color: #f1f3f7;
+    border-radius: 10px;
+    padding: 4px;
+}
+
+.toggle-group {
+    border: none !important;
+}
+
+.toggle-btn {
+    border: none !important;
+    border-radius: 8px !important;
+    color: #555 !important;
+    font-weight: 600 !important;
+    text-transform: none !important;
+    transition: all 0.2s ease-in-out !important;
+    padding: 10px 0 !important;
+}
+
+.toggle-btn.Mui-selected {
+    background-color: #ffffff !important;
+    color: #1a3a8a !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* 입력 폼 카드 */
+.form-card {
+    background-color: #fafbfc;
+    border: 1px solid #eef0f3;
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.category-select-group, .product-select-group {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-control-custom {
+    background-color: #ffffff;
+}
+
+/* 프리뷰 요약 영역 */
+.summary-preview {
+    background: linear-gradient(135deg, #f9fbfd 0%, #f0f4f9 100%);
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 14px 18px;
+    text-align: left;
+    animation: fadeIn 0.4s ease-out;
+}
+
+.preview-label {
+    color: #718096;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.preview-chip {
+    font-weight: 600 !important;
+    font-size: 13px !important;
+    border-radius: 6px !important;
+    border: 1px solid #cbd5e0 !important;
+    background-color: #ffffff !important;
+    color: #1a3a8a !important;
+    max-width: 100%;
+}
+
+/* 쿠폰 추가 폼 그리드 */
+.coupon-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 8px;
+}
+
+.full-row {
+    grid-column: span 2;
+}
+
+.discount-field-group {
+    display: flex;
+    gap: 8px;
+    grid-column: span 2;
+}
+
+/* 하단 액션 버튼 영역 */
+.coupon-button-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 10px;
+    padding-top: 16px;
+    border-top: 1px solid #eef0f3;
+}
+
+.action-btn-save {
+    background-color: #1a3a8a !important;
+    color: white !important;
+    font-weight: 600 !important;
+    padding: 8px 24px !important;
+    text-transform: none !important;
+}
+
+.action-btn-save:hover {
+    background-color: #112761 !important;
+}
+
+.action-btn-cancel {
+    background-color: #f1f3f7 !important;
+    color: #4a5568 !important;
+    font-weight: 600 !important;
+    padding: 8px 24px !important;
+    text-transform: none !important;
+}
+
+.action-btn-cancel:hover {
+    background-color: #e2e8f0 !important;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

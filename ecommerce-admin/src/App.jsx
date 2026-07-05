@@ -17,6 +17,7 @@ import Header from './components/Header';
 import Login from './pages/Login'
 import CommonError from './pages/commonError';
 import CustomerReportListPage from './pages/CustomerReportListPage';
+import ChatPage from './pages/ChatPage';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -83,6 +84,7 @@ function App() {
             <Route path="/inquiry/view/:id" element={<CustomerInquiry />} />
             <Route path="/inquiry/write" element={<CustomerInquiry />} />
             <Route path="/report" element={<CustomerReportListPage />} />
+            <Route path="/chat" element={<ChatPage />} />
           </Routes>
         </div>
       </div>

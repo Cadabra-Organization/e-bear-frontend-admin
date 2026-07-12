@@ -9,6 +9,7 @@
 }
 
 .chat-room-container:hover {
+    cursor: pointer;
     background-color: #F4F4F4;
 }
 

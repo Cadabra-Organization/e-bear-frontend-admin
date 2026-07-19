@@ -5,4 +5,16 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   base: '/admin/',
   plugins: [react()],
+  define: {
+    global: 'window',
+  },
+  server: {
+    proxy: {
+      '/ws': {
+        target: 'http://localhost:9191',
+        ws: true,            
+        changeOrigin: true, 
+      }
+    }
+  }
 })

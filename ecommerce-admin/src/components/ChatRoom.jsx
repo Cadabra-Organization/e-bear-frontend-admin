@@ -1,9 +1,9 @@
 import "./ChatRoom.css";
 import { Avatar, AvatarFallback, UserIcon } from "./CustomTag";
 
-const ChatRoom = ({roomInfo}) => {
+const ChatRoom = ({roomInfo, onClick}) => {
     return (
-        <div className="chat-room-container">
+        <div className="chat-room-container" onClick={onClick}>
             <div className="chat-room-info-container">
                 <div>
                     <Avatar className="seller-avatar">

@@ -1,30 +1,124 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from "react-router-dom";
+import api from "../api/axios";
 import "./CustomerInquiry.css";
 
 const CustomerInquiry = () => {
-    let navigation = [
-        { subject: 'HOME', url: '/admin/home' },
-        { subject: 'HOME', url: '/admin/home' },
-        { subject: 'HOME', url: '/admin/home' },
-        { subject: 'HOME', url: '/admin/home' },
-        { subject: 'HOME', url: '/admin/home' },
-        { subject: 'HOME', url: '/admin/home' }
-    ];
+    const { inquiryNo } = useParams();
+    const navigate = useNavigate();
 
-    let userInfo = {
-        name: '이베어',
-        email: 'ebear@knou.ac.kr'
+    const [inquiry, setInquiry] = useState(null);
+    const [answer, setAnswer] = useState("");
+
+    const [loading, setLoading] = useState(true);
+    const [saving, setSaving] = useState(false);
+    const [error, setError] = useState("");
+
+
+    const formatDateTime = (dateTime) => {
+        if (!dateTime) { return "-"; }
+        return dateTime.replace("T", " ").substring(0, 16);
+    };
+
+    const fetchInquiryDetail = async () => {
+        try {
+            setLoading(true);
+            setError("");
+
+            const response = await api.get(`/inquiry/admin/detail/${inquiryNo}`);
+
+            console.log("고객문의 상세 조회:", response.data);
+
+            setInquiry(response.data);
+
+            // 기존 답변이 있으면 입력창에 표시하고,
+            // 답변이 없으면 빈 문자열을 넣는다.
+            setAnswer(response.data.answerContent ?? "");
+        } catch (err) {
+            console.error("고객문의 상세 조회 실패:", err);
+            console.error("status:", err.response?.status);
+            console.error("data:", err.response?.data);
+
+            setError("고객문의 상세 내용을 불러오지 못했습니다.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleSave = async () => {
+        if (!answer.trim()) {
+            alert("답변 내용을 입력해 주세요.");
+            return;
+        }
+
+        try {
+            setSaving(true);
+
+            const response = await api.put(
+                `/inquiry/admin/detail/${inquiryNo}/answer`,
+                {
+                    content: answer,
+                }
+            );
+
+            console.log("고객문의 답변 저장:", response.data);
+
+            setInquiry(response.data);
+            setAnswer(response.data.answerContent ?? "");
+
+            alert("답변이 저장되었습니다.");
+        } catch (err) {
+            console.error("고객문의 답변 저장 실패:", err);
+            console.error("status:", err.response?.status);
+            console.error("data:", err.response?.data);
+
+            if (err.response?.status === 400) {
+                alert("답변 내용을 확인해 주세요.");
+            } else {
+                alert("답변 저장에 실패했습니다.");
+            }
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    const handleGoList = () => { navigate("/inquiry"); };
+
+    useEffect(() => {
+        fetchInquiryDetail();
+    }, [inquiryNo]);
+
+    if (loading) {
+        return (
+            <div className="main-section">
+                로딩 중...
+            </div>
+        );
     }
 
-    let notice = {
-        content: '[알림] [안내] 공식대행사 대행관 설정 가이드 공지 및 불법영업 행위 주의 안내'
+    if (error) {
+        return (
+            <div className="main-section">
+                <p>{error}</p>
+
+                <div className="button-group">
+                    <button
+                        className="btn btn-list"
+                        onClick={handleGoList}
+                    >
+                        목록
+                    </button>
+                </div>
+            </div>
+        );
     }
 
-    const [answer, setAnswer] = useState('');
+    if (!inquiry) {
+        return null;
+    }
 
     return (
         <div className='main-section'>
-
             <div className="page-header">
                 <h2>고객문의</h2>
             </div>
@@ -39,19 +133,21 @@ const CustomerInquiry = () => {
                 <tbody>
                     <tr>
                         <th>제품명</th>
-                        <td>오브제 헤어 드라이기 UN-B1919N</td>
+                        <td>{inquiry.productName}</td>
                         <th>답변상태</th>
                         <td className='answer-status'>
-                            <span className="answer-no-complete">미답변</span>
+                            <span className={inquiry.answered ? "answer-complete" : "answer-no-complete"}>
+                                {inquiry.answered ? "답변완료" : "미답변"}
+                            </span>
                         </td>
                     </tr>
                     <tr>
                         <th>고객명</th>
-                        <td colSpan="3">김철수 (abc111)</td>
+                        <td colSpan="3">{inquiry.customerName}{" "}({inquiry.customerId})</td>
                     </tr>
                     <tr>
                         <th>등록일시</th>
-                        <td colSpan="3">2025.03.15</td>
+                        <td colSpan="3">{formatDateTime(inquiry.inquiryRegDt)}</td>
                     </tr>
                 </tbody>
             </table>
@@ -64,13 +160,12 @@ const CustomerInquiry = () => {
                 <tbody>
                     <tr>
                         <th>제목</th>
-                        <td>색상 재문의</td>
+                        <td>{inquiry.title}</td>
                     </tr>
                     <tr>
                         <th className="content-th">문의내용</th>
                         <td className="content-td">
-                            안녕하세요. 분홍색 말고 노란색은 없나요? 저는 노란색이 너무 좋아요.
-                            노란색이 없으면 하늘색이라도 주세요.
+                            {inquiry.inquiryContent}
                         </td>
                     </tr>
                 </tbody>
@@ -105,16 +200,16 @@ const CustomerInquiry = () => {
                 <tbody>
                     <tr>
                         <th>답변 등록<br />일시</th>
-                        <td>-</td>
+                        <td>{formatDateTime(inquiry.respondDt)}</td>
                         <th>답변 등록<br />담당자</th>
-                        <td>-</td>
+                        <td>{inquiry.responder ?? "-"}</td>
                     </tr>
                 </tbody>
             </table>
 
             <div className="button-group">
-                <button className="btn btn-list">목록</button>
-                <button className="btn btn-save">저장</button>
+                <button className="btn btn-list" onClick={handleGoList} disabled={saving}>목록</button>
+                <button className="btn btn-save" onClick={handleSave} disabled={saving}>{saving ? "저장 중..." : "저장"}</button>
             </div>
 
         </div>

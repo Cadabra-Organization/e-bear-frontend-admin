@@ -81,7 +81,7 @@ function App() {
             <Route path="/member" element={<MemberList />} />
             <Route path="/order" element={<OrderListPage />} />
             <Route path="/inquiry" element={<CustomerInquiryListPage />} />
-            <Route path="/inquiry/view/:id" element={<CustomerInquiry />} />
+            <Route path="/inquiry/detail/:inquiryNo" element={<CustomerInquiry />} />
             <Route path="/inquiry/write" element={<CustomerInquiry />} />
             <Route path="/report" element={<CustomerReportListPage />} />
             <Route path="/chat" element={<ChatPage />} />

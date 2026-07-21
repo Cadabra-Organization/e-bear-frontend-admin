@@ -2,18 +2,21 @@ import "./CustomerInquiryListPage.css";
 import api from "../api/axios";
 import DataTable from "../components/DataTable";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CustomerInquiryListPage = () => {
     const [rows, setRows] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
+    const navigate = useNavigate();
+
     // 보여주고 싶은 검색 조건 설정 (SearchHeader를 제어)
     const searchConfig = {
         showDate: false,      // 날짜 검색 
         showCondition: true, // 검색조건 선택 
         showText: true,      // 검색어 입력 
-        showDelete: true,    // 삭제 버튼 
+        showDelete: false,    // 삭제 버튼 
         showWrite: false,      // 글쓰기 버튼
     };
 
@@ -103,7 +106,7 @@ const CustomerInquiryListPage = () => {
             subject: item.title,
             customer: item.customer,
             regDt: item.regDt ? item.regDt.substring(0, 10) : "",
-            respondDt: item.respondDt ? item.regDt.substring(0, 10) : "-",
+            respondDt: item.respondDt ? item.respondDt.substring(0, 10) : "-",
             responder: item.responder ?? "-",
         }));
     };
@@ -127,6 +130,10 @@ const CustomerInquiryListPage = () => {
         }
     };
 
+    const handleSelectInquiry = (inquiryNo) => {
+        navigate(`/inquiry/detail/${inquiryNo}`);
+    };
+
     useEffect(() => {
         fetchInquiryList();
     }, []);
@@ -141,7 +148,7 @@ const CustomerInquiryListPage = () => {
 
     return (
         <div className="inquiry-main-section-table">
-            <DataTable pageInfo={pageInfo} headCells={headCells} rows={rows} searchConfig={searchConfig} labelConfig={labelConfig} writeFunc={() => console.log('글쓰기 버튼')} selectFunc={() => console.log('')} />
+            <DataTable pageInfo={pageInfo} headCells={headCells} rows={rows} searchConfig={searchConfig} labelConfig={labelConfig} writeFunc={() => console.log('글쓰기 버튼')} detailFunc={handleSelectInquiry} />
         </div>
     );
 };

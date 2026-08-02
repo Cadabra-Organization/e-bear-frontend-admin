@@ -1,14 +1,41 @@
 import { useState, useRef, useEffect } from "react";
 import "./Chat.css";
 import Message from "./Message";
+import api from "../api/axios";
 
-const Chat = ({ room, messageList, sendMessage }) => {
+const Chat = ({ room, messageList, sendMessage, stompClient, myUserId }) => {
     const [inputValue, setInputValue] = useState("");
     const messagesEndRef = useRef(null); 
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messageList]);
+
+    const markAsRead = async () => {
+        if (!room?.id) return;
+
+        try {
+            await api.post(`/chat/rooms/${room.id}/read`, { userId: myUserId });
+
+            if (stompClient?.current?.connected) {
+                stompClient.current.publish({
+                    destination: "/app/chat/read",
+                    body: JSON.stringify({
+                        roomId: room.id,
+                        readerId: myUserId
+                    })
+                });
+            }
+        } catch (err) {
+            console.error("읽음 처리 실패:", err);
+        }
+    };
+
+    useEffect(() => {
+        if (room && messageList.length > 0) {
+            markAsRead();
+        }
+    }, [room?.id, messageList.length]);
 
     if (!room) {
         return (

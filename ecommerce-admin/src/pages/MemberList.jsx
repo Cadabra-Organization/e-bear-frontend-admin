@@ -1,8 +1,18 @@
 import "./MemberList.css";
-import SideNavigation from "../components/SideNavigation";
-import Header from "../components/Header";
 import DataTable from "../components/DataTable";
-import { Button } from "@mui/material";
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    MenuItem,
+    Stack,
+    TextField,
+    Typography,
+} from "@mui/material";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import { useMemo, useState } from "react";
 
 const generateDummyRows = (count) => {
     const data = [];
@@ -19,16 +29,76 @@ const generateDummyRows = (count) => {
             address: `서울특별시 서초구 우면동`,
             phone: '010-1234-1234',
             memberAccess: '판매자',
-            modify: <div class="modify"><Button variant="outlined" color="black">수정</Button></div>
         });
     }
     return data.reverse(); // 역순으로 정렬
 };
 
-// 더미 데이터 갯수 할당 및 생성 
-const rows = generateDummyRows(105);
-
 const NoticePage = () => {
+    const [members, setMembers] = useState(() => generateDummyRows(105));
+    const [editOpen, setEditOpen] = useState(false);
+    const [editMember, setEditMember] = useState(null);
+
+    const handleEditOpen = (member) => {
+        setEditMember({ ...member });
+        setEditOpen(true);
+    };
+
+    const handleEditClose = () => {
+        setEditOpen(false);
+        setEditMember(null);
+    };
+
+    const handleEditChange = (field) => (event) => {
+        setEditMember((prev) => ({
+            ...prev,
+            [field]: event.target.value,
+        }));
+    };
+
+    const handleEditSave = () => {
+        setMembers((prev) =>
+            prev.map((member) =>
+                member.num === editMember.num ? { ...member, ...editMember } : member
+            )
+        );
+        handleEditClose();
+    };
+
+    const rows = useMemo(
+        () =>
+            members.map((member) => ({
+                ...member,
+                modify: (
+                    <Button
+                        type="button"
+                        variant="outlined"
+                        size="small"
+                        startIcon={<EditOutlinedIcon fontSize="small" />}
+                        onClick={(event) => {
+                            event.stopPropagation();
+                            handleEditOpen(member);
+                        }}
+                        sx={{
+                            minWidth: 82,
+                            height: 34,
+                            borderColor: "#d0d5dd",
+                            color: "#344054",
+                            fontWeight: 700,
+                            backgroundColor: "#fff",
+                            "&:hover": {
+                                borderColor: "#111827",
+                                backgroundColor: "#f9fafb",
+                            },
+                        }}
+                    >
+                        수정
+                    </Button>
+                ),
+            })),
+        [members]
+    );
+
     let navigation = [
         { subject: 'HOME', url: '/admin/home' },
         { subject: 'HOME', url: '/admin/home' },
@@ -138,6 +208,89 @@ const NoticePage = () => {
         <div className='main-section'>
             {/* 순서대로 게시판 데이터, 표 헤더 데이터, 출력 데이터, 검색조건 */}
             <DataTable pageInfo={pageInfo} headCells={headCells} rows={rows} searchConfig={searchConfig} labelConfig={labelConfig} writeFunc={() => console.log('글쓰기 버튼')} selectFunc={() => console.log('')}/>
+            <Dialog
+                open={editOpen}
+                onClose={handleEditClose}
+                maxWidth="xs"
+                fullWidth
+                PaperProps={{
+                    sx: {
+                        borderRadius: 2,
+                    },
+                }}
+            >
+                <DialogTitle sx={{ pb: 1 }}>
+                    <Typography component="span" sx={{ fontSize: 20, fontWeight: 800 }}>
+                        회원 정보 수정
+                    </Typography>
+                </DialogTitle>
+                <DialogContent>
+                    <Stack spacing={2} sx={{ pt: 1 }}>
+                        <TextField
+                            label="아이디"
+                            value={editMember?.ID ?? ""}
+                            size="small"
+                            fullWidth
+                            disabled
+                        />
+                        <TextField
+                            label="이름"
+                            value={editMember?.name ?? ""}
+                            onChange={handleEditChange("name")}
+                            size="small"
+                            fullWidth
+                        />
+                        <TextField
+                            label="주소"
+                            value={editMember?.address ?? ""}
+                            onChange={handleEditChange("address")}
+                            size="small"
+                            fullWidth
+                            multiline
+                            minRows={2}
+                        />
+                        <TextField
+                            label="연락처"
+                            value={editMember?.phone ?? ""}
+                            onChange={handleEditChange("phone")}
+                            size="small"
+                            fullWidth
+                        />
+                        <TextField
+                            select
+                            label="회원권한"
+                            value={editMember?.memberAccess ?? ""}
+                            onChange={handleEditChange("memberAccess")}
+                            size="small"
+                            fullWidth
+                        >
+                            <MenuItem value="일반회원">일반회원</MenuItem>
+                            <MenuItem value="판매자">판매자</MenuItem>
+                            <MenuItem value="관리자">관리자</MenuItem>
+                        </TextField>
+                    </Stack>
+                </DialogContent>
+                <DialogActions sx={{ px: 3, pb: 2 }}>
+                    <Button onClick={handleEditClose} sx={{ color: "#667085", fontWeight: 700 }}>
+                        취소
+                    </Button>
+                    <Button
+                        variant="contained"
+                        onClick={handleEditSave}
+                        disabled={!editMember}
+                        sx={{
+                            minWidth: 76,
+                            backgroundColor: "#111827",
+                            fontWeight: 800,
+                            "&:hover": {
+                                backgroundColor: "#000",
+                            },
+                        }}
+                    >
+                        저장
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </div>
     );
 };

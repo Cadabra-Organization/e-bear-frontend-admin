@@ -21,6 +21,7 @@ import ChatPage from './pages/ChatPage';
 import SellerSettlementPage from './pages/SellerSettlementPage';
 import AdminSettlementPage from './pages/AdminSettlementPage';
 import SettlementReconciliationPage from './pages/SettlementReconciliationPage';
+import CustomerReport from './pages/CustomerReport';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -89,9 +90,11 @@ function App() {
             <Route path="/member" element={<MemberList />} />
             <Route path="/order" element={<OrderListPage />} />
             <Route path="/inquiry" element={<CustomerInquiryListPage />} />
-            <Route path="/inquiry/detail/:inquiryNo" element={<CustomerInquiry />} />
+            <Route path="/inquiry/view/:id" element={<CustomerInquiry />} />
             <Route path="/inquiry/write" element={<CustomerInquiry />} />
             <Route path="/report" element={<CustomerReportListPage />} />
+            <Route path="/report/view/:id" element={<CustomerReport />} />
+            <Route path="/report/write" element={<CustomerReport />} />
             <Route path="/chat" element={<ChatPage />} />
             <Route path="/seller/settlement" element={<SellerSettlementPage />} />
             <Route path="/admin/settlement" element={<AdminSettlementPage />} />

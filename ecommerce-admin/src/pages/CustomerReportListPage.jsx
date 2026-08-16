@@ -127,6 +127,10 @@ const CustomerReportListPage = () => {
         }
     };
 
+    const handleSelectReport = (reportNo) => {
+        navigate(`/report/detail/${reportNo}`);
+    };
+
     useEffect(() => {
         fetchReportList();
     }, []);
@@ -141,7 +145,7 @@ const CustomerReportListPage = () => {
 
     return (
         <div className="report-main-section-table">
-            <DataTable pageInfo={pageInfo} headCells={headCells} rows={rows} searchConfig={searchConfig} labelConfig={labelConfig} writeFunc={() => console.log('글쓰기 버튼')} selectFunc={() => console.log('')} />
+            <DataTable pageInfo={pageInfo} headCells={headCells} rows={rows} searchConfig={searchConfig} labelConfig={labelConfig} writeFunc={() => console.log('글쓰기 버튼')}  detailFunc={handleSelectReport} />
         </div>
     );
 };

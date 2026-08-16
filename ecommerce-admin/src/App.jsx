@@ -18,6 +18,9 @@ import Login from './pages/Login'
 import CommonError from './pages/commonError';
 import CustomerReportListPage from './pages/CustomerReportListPage';
 import ChatPage from './pages/ChatPage';
+import SellerSettlementPage from './pages/SellerSettlementPage';
+import AdminSettlementPage from './pages/AdminSettlementPage';
+import SettlementReconciliationPage from './pages/SettlementReconciliationPage';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -37,6 +40,11 @@ function App() {
       {subject: '고객문의', url: '/inquiry'},
       {subject: '신고문의', url: '/report'},
       {subject: '1:1문의', url: '/chat'},
+    ]},
+    { subject: '정산관리', url: '/seller/settlement', subMenu: [
+      { subject: '판매자 정산내역', url: '/seller/settlement' },
+      { subject: '관리자 정산총괄', url: '/admin/settlement' },
+      { subject: 'PG 정산대사', url: '/admin/reconciliation' },
     ]}
   ];
 
@@ -85,6 +93,9 @@ function App() {
             <Route path="/inquiry/write" element={<CustomerInquiry />} />
             <Route path="/report" element={<CustomerReportListPage />} />
             <Route path="/chat" element={<ChatPage />} />
+            <Route path="/seller/settlement" element={<SellerSettlementPage />} />
+            <Route path="/admin/settlement" element={<AdminSettlementPage />} />
+            <Route path="/admin/reconciliation" element={<SettlementReconciliationPage />} />
           </Routes>
         </div>
       </div>

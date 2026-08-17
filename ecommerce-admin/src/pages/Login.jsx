@@ -18,12 +18,20 @@ const Login = ({ onLogin }) => {
 
         try {
             const data = await api.post("/login", {
-                    userId: id,
+                    userId: loginId,
                     password: pw
                 });
             
             const token = data.headers['access_token'];
             if (token) localStorage.setItem("token", token);
+
+            const userInfo = await api.get("/user/me");
+            if (userInfo.data?.role !== "ADMIN") {
+                localStorage.removeItem("token");
+                alert("관리자 페이지는 관리자 계정만 접속 가능합니다.");
+                return;
+            }
+
             onLogin();
             navigate("/");
         } catch (err) {
